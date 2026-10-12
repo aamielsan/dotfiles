@@ -32,3 +32,8 @@
 	algorithm = histogram # more readable diffs
 [branch]
 	sort = -committerdate # newest branches first
+
+# Clone/fetch GitHub over HTTPS (works before SSH keys exist, e.g. during
+# bootstrap), push over SSH.
+[url "git@github.com:"]
+	pushInsteadOf = https://github.com/
