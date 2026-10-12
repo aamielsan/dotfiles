@@ -55,10 +55,12 @@ mode = "0700"
 "~/.tmux.conf" = "home/.tmux.conf"
 "~/.config/ghostty/config.ghostty" = "home/.config/ghostty/config.ghostty"
 "~/.ssh/config" = "home/.ssh/config"
-# Docker looks for CLI plugins in ~/.docker/cli-plugins. This points into
-# mise's install directory; if buildx stops working after a mise upgrade,
-# check the path with `mise where github:docker/buildx`.
-"~/.docker/cli-plugins/docker-buildx" = "~/.local/share/mise/installs/github-docker-buildx/latest/docker-buildx"
+
+# Docker finds CLI plugins in ~/.docker/cli-plugins. A hook rather than a
+# [dotfiles] entry because dotfiles are linked before tools are installed.
+# Re-run `mise bootstrap` after `mise upgrade` to repoint it.
+[bootstrap.hooks]
+post-tools = 'mkdir -p ~/.docker/cli-plugins && ln -sfn "$("$HOME/.local/bin/mise" where github:docker/buildx)/docker-buildx" ~/.docker/cli-plugins/docker-buildx'
 
 [bootstrap.macos.finder]
 show_all_files = true
