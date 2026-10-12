@@ -8,6 +8,7 @@ backend = "aqua:aws/aws-cli"
 specifiers = ["latest"]
 
 [tools.aws-cli."platforms.macos-arm64"]
+checksum = "blake3:2bb2d828c9e31a2d79f4db60fde7232af0b252b9e7d3a3b3c4c1e29998e14bf7"
 url = "https://awscli.amazonaws.com/AWSCLIV2-2.37.12.pkg"
 
 [[tools."npm:aws-cdk"]]

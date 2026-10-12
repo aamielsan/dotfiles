@@ -9,7 +9,6 @@
 
 # Speed (the global ignore lives at ~/.config/git/ignore, git's default path)
 [core]
-	fsmonitor = true      # background watcher per repo, so status doesn't scan every file
 	untrackedCache = true # remember untracked files between runs
 [fetch]
 	writeCommitGraph = true # faster log/merge-base on big histories

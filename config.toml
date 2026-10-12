@@ -20,6 +20,7 @@ gh = "latest"
 tmux = "latest"
 neovim = "latest"
 tree-sitter = "latest" # nvim-treesitter compiles parsers with it
+claude = "latest"
 
 # Containers: `colima start` runs the Docker engine in a VM when needed
 colima = "latest"

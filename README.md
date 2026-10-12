@@ -78,29 +78,44 @@ includes everything in `~/.ssh/config.d/`.
   installs itself on first start). `.zprofile` sets environment and PATH,
   `.zshrc` does interactive setup. fzf (Ctrl-R, Ctrl-T) and zoxide (`z <dir>`).
 - **Terminal:** Ghostty opens straight into the tmux session `default`.
-- **Git:** `home/.gitconfig`. The `PATH` line in `.zprofile` uses the real git
-  binary instead of Apple's slower `/usr/bin/git` wrapper.
+- **Git:** `home/.gitconfig`, global ignore in `home/.config/git/ignore`.
 - **Neovim:** config lives in its own repo,
   [aamielsan/nvim](https://github.com/aamielsan/nvim), cloned to
   `~/.config/nvim`. mise provides Neovim and the runtimes; Mason (inside
   Neovim) installs language servers and formatters.
+- **Claude Code:** installed by mise (raicode can only install it with
+  Homebrew). At work, launch it through `raicode`.
 - **Containers:** `colima start` before using Docker (it isn't started
   automatically). For amd64-only images, `colima start --vz-rosetta`.
 
-## Owned by other tools
+## Files other tools write
 
-Deliberately **not** in this repo:
+These live outside the repo on purpose. Each tool creates and owns its own:
 
-- `~/.zshenv`: left for tools to write to. On the DNB laptop, `raicode manage fix-certs`
-  adds the Zscaler certificate setup there.
-- Claude Code: installed and updated by `raicode` at work. On a personal Mac:
-  `curl -fsSL https://claude.ai/install.sh | bash`.
-- `~/.docker/config.json`: Docker writes credentials there.
+| Path | Written by |
+|---|---|
+| `~/.zshenv`, `~/.raicode/` | `raicode manage fix-certs` (Zscaler certificate, work laptop only) |
+| `~/.colima/` | Colima: the VM and its settings |
+| `~/.docker/config.json` | Docker: registry credentials |
+| `~/.zim/` | Zim: modules, downloaded on first shell start |
+| `~/.local/share/nvim/` | Neovim: plugins, Mason servers, treesitter parsers |
+| `~/.local/share/mise/`, `~/.local/state/mise/` | mise: installed tools and bootstrap state |
+
+Two catches:
+
+- Colima writes an `Include` into `~/.ssh/config`, which is a file in this
+  repo. Start it the first time with `colima start --ssh-config=false`; it
+  remembers the setting.
+- `fix-certs` only edits `~/.zshenv` on its first run. If that line goes
+  missing, move `~/.raicode/env.sh` away and run `fix-certs` again.
 
 ## Manual steps
 
 - Caps Lock → Escape: System Settings → Keyboard → Keyboard Shortcuts →
   Modifier Keys.
-- SSH keys: put `github-personal` (and `github-dnb` at work) in `~/.ssh/`.
+- SSH keys: put `github-personal` (and `github-dnb` at work) in `~/.ssh/` and
+  add the `.pub` to each GitHub account. Check with `ssh -T git@github.com` and
+  `ssh -T dnb@dnb.ghe.com` (the DNB host's SSH user is `dnb`, not `git`).
 - IntelliJ: point the project SDK at `~/.local/share/mise/installs/java/corretto-25`.
-- Work laptop: run `raicode` to sign in and install Claude Code.
+- Work laptop: run `raicode` to sign in, then `raicode manage fix-certs` and
+  open a new terminal.

@@ -6,12 +6,11 @@ This repo is the user's global mise config (`~/.config/mise`), applied with `mis
 
 The user maintains this without AI help, so every change is judged on three things, in order:
 
-1. **Speed.** Shell startup, per-prompt latency, and Neovim startup matter most. The user splits tmux panes constantly. Measure before and after (`zsh -i -c exit`, zprof, `EPOCHREALTIME` around precmd functions).
-2. **Simplicity.** Prefer native, declarative mise sections (`[dotfiles]`, `[bootstrap.directories]`, `[bootstrap.macos.*]`) and standard config keys over `[tasks]`, scripts, or shell glue. Removing beats adding.
+1. **Simplicity.** A setup that's simple and straightforward beats a faster one. Prefer native, declarative mise sections (`[dotfiles]`, `[bootstrap.directories]`, `[bootstrap.macos.*]`) and standard config keys over `[tasks]`, scripts, or shell glue. Removing beats adding.
+2. **Speed, pragmatically.** Shell startup, per-prompt latency, and Neovim startup should feel fast (the user splits tmux panes constantly), but don't add config or workarounds to save a few milliseconds. Measure before and after (`zsh -i -c exit`, zprof, `EPOCHREALTIME` around precmd functions).
 3. **Ownership.** Commit only settings the user deliberately chose. Config that a tool writes or owns stays with that tool:
    - raicode's cert setup in `~/.zshenv`, which is unmanaged on purpose
    - Docker's `config.json`
-   - Claude Code, which raicode installs
    - tool defaults: leave them unset rather than restating them
 
    When a setting seems necessary, prove it (reproduce the failure) before adding it, and give it a one-line comment saying why.

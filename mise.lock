@@ -2,6 +2,16 @@
 
 lockfile_version = 3
 
+[[tools.claude]]
+version = "2.1.296"
+backend = "aqua:anthropics/claude-code"
+specifiers = ["latest"]
+
+[tools.claude."platforms.macos-arm64"]
+checksum = "sha256:60f97cde7f7e078b424138e34ecf1ad620bd81ac3866984fb8996623a36a052e"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.296/claude-darwin-arm64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/625598716"
+
 [[tools.colima]]
 version = "0.10.3"
 backend = "aqua:abiosoft/colima"
@@ -18,6 +28,7 @@ backend = "aqua:docker/cli"
 specifiers = ["latest"]
 
 [tools.docker-cli."platforms.macos-arm64"]
+checksum = "blake3:063fb46804b8490ada8a22b55def213c8b3067983746dc0636e307d8e438fcf1"
 url = "https://download.docker.com/mac/static/stable/aarch64/docker-29.9.0.tgz"
 
 [[tools.fd]]
