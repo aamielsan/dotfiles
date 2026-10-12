@@ -91,7 +91,7 @@ includes everything in `~/.ssh/config.d/`.
 
 Deliberately **not** in this repo:
 
-- `~/.zshenv`: left for tools to write to. On the DNB laptop, `raicode fix-certs`
+- `~/.zshenv`: left for tools to write to. On the DNB laptop, `raicode manage fix-certs`
   adds the Zscaler certificate setup there.
 - Claude Code: installed and updated by `raicode` at work. On a personal Mac:
   `curl -fsSL https://claude.ai/install.sh | bash`.
