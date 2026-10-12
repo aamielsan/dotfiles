@@ -93,6 +93,9 @@ ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 # Initialize modules
 # ------------------
 
+# mise: put tools on PATH before Zim loads (Zim's fzf module needs fzf).
+eval "$(mise activate zsh)"
+
 ZIM_HOME=${ZDOTDIR:-${HOME}}/.zim
 # Download zimfw plugin manager if missing.
 if [[ ! -e ${ZIM_HOME}/zimfw.zsh ]]; then
@@ -128,67 +131,9 @@ for key ('j') bindkey -M vicmd ${key} history-substring-search-down
 unset key
 # }}} End configuration added by Zim install
 
-# source prezto
-#if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-#  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
-#fi
+# Aliases. ~/.aliases.work only exists on machines with the mise `work` env.
+[[ -f ~/.aliases ]] && source ~/.aliases
+[[ -f ~/.aliases.work ]] && source ~/.aliases.work
 
-# autocomplete
-#autoload -U +X bashcompinit && bashcompinit
-#autoload -U +X compinit && compinit
-
-export LANG=en_US.UTF-8
-
-# asdf
-#. "$HOME/.asdf/asdf.sh"
-#. "$HOME/.asdf/completions/asdf.bash"
-
-# paths
-export HOMEBREW_BIN=/opt/homebrew/bin
-export PATH=$PATH:$HOMEBREW_BIN
-
-export GO_BIN=$HOME/go/bin
-export PATH=$PATH:$GO_BIN
-
-export USR_LOCAL_BIN=/usr/local/bin
-export PATH=$PATH:$USR_LOCAL_BIN
-
-export USR_BIN=$HOME/bin
-export PATH=$PATH:$USR_BIN
-
-export IDEA_BIN=/Applications/IntelliJ\ IDEA.app/Contents/MacOS
-export PATH=$PATH:$IDEA_BIN
-
-export CARGO_HOME=$HOME/.cargo
-export PATH=$PATH:$HOME/.cargo/bin
-
-export ASDF=$ASDF_DATA_DIR/shims
-export PATH=$PATH:$ASDF
-
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/amazon-corretto-25.jdk/Contents/Home
-export PATH=$PATH:$JAVA_HOME
-
-# source aliases
-[[ ! -f ~/.aliases ]] || source ~/.aliases
-[[ ! -f ~/.gitrc ]] || source ~/.gitrc
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-. "/Users/adrian/.deno/env"
-
-. "$HOME/.local/bin/env"
-
-# pnpm
-export PNPM_HOME="/Users/adrian/Library/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
-
-# opencode
-export PATH=/Users/adrian/.opencode/bin:$PATH
-
-# Added by raicode fix-certs
-export NODE_EXTRA_CA_CERTS=/Users/adrian/.raicode/dnb-zscaler.pem
+# zoxide (`z <dir>`): must come after compinit, so keep it last.
+eval "$(zoxide init zsh)"

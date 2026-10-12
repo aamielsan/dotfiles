@@ -1,0 +1,72 @@
+# Shared setup for every machine. Apply with `mise bootstrap`.
+# Machine-specific extras live in config.<env>.toml, selected per machine in
+# miserc.local.toml (e.g. env = ["work"]). See README.md.
+
+[tools]
+# Runtimes
+node = "lts"
+java = "corretto-25"
+python = "3"
+go = "latest"
+uv = "latest"
+
+# CLI
+ripgrep = "latest"
+fd = "latest"
+fzf = "latest"
+zoxide = "latest"
+jq = "latest"
+gh = "latest"
+tmux = "latest"
+neovim = "latest"
+tree-sitter = "latest" # nvim-treesitter compiles parsers with it
+
+# Containers: `colima start` runs the Docker engine in a VM when needed
+colima = "latest"
+lima = "latest"
+docker-cli = "latest"
+"github:docker/buildx" = { version = "latest", bin = "docker-buildx" }
+
+# GUI apps from Homebrew's cask catalogue (Homebrew itself isn't installed).
+# adopt = true keeps an app that's already in /Applications instead of
+# reinstalling it, so macOS doesn't drop its permissions.
+[bootstrap.packages]
+"brew-cask:ghostty" = { adopt = true }
+"brew-cask:google-chrome" = { adopt = true }
+"brew-cask:intellij-idea" = { adopt = true }
+"brew-cask:slack" = { adopt = true }
+
+[bootstrap.directories."~/.ssh"]
+mode = "0700"
+
+[bootstrap.directories."~/Desktop/Screenshots"]
+
+[bootstrap.repos]
+"~/.config/nvim" = { url = "https://github.com/aamielsan/nvim.git" }
+
+# Symlinks: target = source (relative to this directory)
+[dotfiles]
+"~/.zprofile" = "home/.zprofile"
+"~/.zshrc" = "home/.zshrc"
+"~/.zimrc" = "home/.zimrc"
+"~/.aliases" = "home/.aliases"
+"~/.gitconfig" = "home/.gitconfig"
+"~/.config/git" = "home/.config/git"
+"~/.tmux.conf" = "home/.tmux.conf"
+"~/.config/ghostty/config.ghostty" = "home/.config/ghostty/config.ghostty"
+"~/.ssh/config" = "home/.ssh/config"
+# Docker looks for CLI plugins in ~/.docker/cli-plugins. This points into
+# mise's install directory; if buildx stops working after a mise upgrade,
+# check the path with `mise where github:docker/buildx`.
+"~/.docker/cli-plugins/docker-buildx" = "~/.local/share/mise/installs/github-docker-buildx/latest/docker-buildx"
+
+[bootstrap.macos.finder]
+show_all_files = true
+
+[bootstrap.macos.trackpad]
+tap_to_click = true
+
+[bootstrap.macos.defaults]
+"com.apple.screencapture" = { type = "png", location = "~/Desktop/Screenshots" }
+"com.apple.AppleMultitouchTrackpad" = { TrackpadRightClick = true }
+"com.apple.driver.AppleBluetoothMultitouch.trackpad" = { TrackpadRightClick = true }

@@ -1,0 +1,34 @@
+[user]
+	name = A Sanchez
+	email = aamiel.sanchez@gmail.com
+
+# Work identity for repos under ~/workspace/dnb/. Git ignores the include
+# if the file is missing (i.e. machines without the mise `work` env).
+[includeIf "gitdir:~/workspace/dnb/"]
+	path = ~/.gitconfig.work
+
+# Speed (the global ignore lives at ~/.config/git/ignore, git's default path)
+[core]
+	fsmonitor = true      # background watcher per repo, so status doesn't scan every file
+	untrackedCache = true # remember untracked files between runs
+[fetch]
+	writeCommitGraph = true # faster log/merge-base on big histories
+	prune = true            # drop deleted remote branches
+
+# Workflow
+[init]
+	defaultBranch = main
+[push]
+	autoSetupRemote = true # no --set-upstream on first push
+[pull]
+	rebase = true # rebase instead of merge commits
+[rebase]
+	autoStash = true # rebase works with uncommitted changes
+[rerere]
+	enabled = true # reuse recorded conflict resolutions
+[merge]
+	conflictStyle = zdiff3 # conflicts also show the original code
+[diff]
+	algorithm = histogram # more readable diffs
+[branch]
+	sort = -committerdate # newest branches first

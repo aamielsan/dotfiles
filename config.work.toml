@@ -1,0 +1,15 @@
+# DNB work laptop. Enabled per machine with env = ["work"] in miserc.local.toml.
+
+[tools]
+aws-cli = "latest"
+"npm:aws-cdk" = "latest"
+
+[bootstrap.directories]
+"~/workspace/dnb" = {}
+"~/workspace/personal" = {}
+"~/workspace/oss" = {}
+
+[dotfiles]
+"~/.aliases.work" = "home/.aliases.work"   # sourced by .zshrc when present
+"~/.gitconfig.work" = "home/.gitconfig.work" # included by .gitconfig for ~/workspace/dnb/
+"~/.ssh/config.d/work" = "home/.ssh/config.d/work"

@@ -1,0 +1,8 @@
+fullscreen = true
+font-family = "JetBrains Mono"
+font-size = 15
+theme = "dark:Rose Pine Moon,light:Rose Pine Dawn"
+
+# Attach to the "default" tmux session, creating it if needed. Login shell so
+# .zprofile puts mise's tmux on PATH.
+command = /bin/zsh -l -c "tmux new-session -A -s default"

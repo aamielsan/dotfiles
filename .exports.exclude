@@ -1,9 +1,0 @@
-export PATH_TO_WORKSPACE="$HOME/workspace"
-export PATH_TO_PLAYGROUND="$PATH_TO_WORKSPACE/playground"
-export PATH_TO_PROJECTS="$PATH_TO_WORKSPACE/projects"
-export TEXT_EDITOR="nvim"
-
-# This should be the last line of the file
-# For local changes
-# Don't make edits below this
-[ -f ".exports.local" ] && source ".exports.local"
