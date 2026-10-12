@@ -9,3 +9,7 @@
 if [[ ( "$SHLVL" -eq 1 && ! -o LOGIN ) && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprofile"
 fi
+. "$HOME/.cargo/env"
+
+# Added by raicode fix-certs
+[ -f ~/.raicode/env.sh ] && . ~/.raicode/env.sh
