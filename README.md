@@ -113,8 +113,11 @@ Two catches:
 
 ## Manual steps
 
-- Caps Lock → Escape: System Settings → Keyboard → Keyboard Shortcuts →
-  Modifier Keys.
+- Caps Lock (hold for Ctrl, tap for Esc): open Karabiner-Elements, approve its
+  driver and Input Monitoring when macOS asks, then Complex Modifications → Add
+  predefined rule → enable "Change caps_lock to control if pressed with other
+  keys, to escape if pressed alone" (the rule file comes from this repo; Karabiner
+  keeps which rules are on in its own `karabiner.json`).
 - SSH keys: put `github-personal` (and `github-dnb` at work) in `~/.ssh/` and
   add the `.pub` to each GitHub account. Check with `ssh -T git@github.com` and
   `ssh -T dnb@dnb.ghe.com` (the DNB host's SSH user is `dnb`, not `git`).

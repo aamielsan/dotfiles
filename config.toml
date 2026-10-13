@@ -35,6 +35,7 @@ docker-cli = "latest"
 "brew-cask:ghostty" = { adopt = true }
 "brew-cask:google-chrome" = { adopt = true }
 "brew-cask:intellij-idea" = { adopt = true }
+"brew-cask:karabiner-elements" = { adopt = true } # Caps Lock: hold for Ctrl, tap for Esc
 "brew-cask:slack" = { adopt = true }
 
 [bootstrap.directories."~/.ssh"]
@@ -57,6 +58,7 @@ mode = "0700"
 "~/.tmux.conf" = "home/.tmux.conf"
 "~/.ideavimrc" = "home/.ideavimrc"
 "~/.config/ghostty/config.ghostty" = "home/.config/ghostty/config.ghostty"
+"~/.config/karabiner/assets/complex_modifications/caps-lock.json" = "home/.config/karabiner/assets/complex_modifications/caps-lock.json"
 "~/.ssh/config" = "home/.ssh/config"
 
 # Docker finds CLI plugins in ~/.docker/cli-plugins. A hook rather than a
