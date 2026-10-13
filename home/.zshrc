@@ -131,8 +131,7 @@ for key ('j') bindkey -M vicmd ${key} history-substring-search-down
 unset key
 # }}} End configuration added by Zim install
 
-# Aliases. ~/.aliases.work only exists on machines with the mise `work` env.
-[[ -f ~/.aliases ]] && source ~/.aliases
+# Work aliases. ~/.aliases.work only exists on machines with the mise `work` env.
 [[ -f ~/.aliases.work ]] && source ~/.aliases.work
 
 # zoxide (`z <dir>`): must come after compinit, so keep it last.

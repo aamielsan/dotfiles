@@ -78,6 +78,8 @@ includes everything in `~/.ssh/config.d/`.
   installs itself on first start). `.zprofile` sets environment and PATH,
   `.zshrc` does interactive setup. fzf (Ctrl-R, Ctrl-T) and zoxide (`z <dir>`).
 - **Terminal:** Ghostty opens straight into the tmux session `default`.
+- **Workspace:** repos go in `~/workspace/personal/` (every machine) or
+  `~/workspace/dnb/` (work; uses the work git identity), one folder per repo.
 - **Git:** `home/.gitconfig`, global ignore in `home/.config/git/ignore`.
 - **Neovim:** config lives in its own repo,
   [aamielsan/nvim](https://github.com/aamielsan/nvim), cloned to

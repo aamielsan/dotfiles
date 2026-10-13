@@ -42,6 +42,8 @@ mode = "0700"
 
 [bootstrap.directories."~/Desktop/Screenshots"]
 
+[bootstrap.directories."~/workspace/personal"]
+
 [bootstrap.repos]
 "~/.config/nvim" = { url = "https://github.com/aamielsan/nvim.git" }
 
@@ -50,7 +52,6 @@ mode = "0700"
 "~/.zprofile" = "home/.zprofile"
 "~/.zshrc" = "home/.zshrc"
 "~/.zimrc" = "home/.zimrc"
-"~/.aliases" = "home/.aliases"
 "~/.gitconfig" = "home/.gitconfig"
 "~/.config/git" = "home/.config/git"
 "~/.tmux.conf" = "home/.tmux.conf"

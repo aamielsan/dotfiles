@@ -5,9 +5,7 @@ aws-cli = "latest"
 "npm:aws-cdk" = "latest"
 
 [bootstrap.directories]
-"~/workspace/dnb" = {}
-"~/workspace/personal" = {}
-"~/workspace/oss" = {}
+"~/workspace/dnb" = {} # repos here use the work git identity
 
 [dotfiles]
 "~/.aliases.work" = "home/.aliases.work"   # sourced by .zshrc when present

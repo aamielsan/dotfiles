@@ -1,5 +1,0 @@
-alias gtwork='cd ~/workspace/'
-alias gtpersonal='gtwork && cd personal'
-alias gtoss='gtwork && cd oss'
-
-alias python=python3

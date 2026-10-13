@@ -1,8 +1,3 @@
-alias gtdnb='gtwork && cd dnb'
-alias gtserverside='gtdnb && cd server-side'
-alias gtssm='gtserverside && cd dnb-server-side'
-alias gtweb='gtdnb && cd web'
-
 function goreport() {
     git checkout $@ && go test -coverprofile=coverage-$@.out ./... && go tool cover -html coverage-$@.out -o cover-$@.html && zip test-report-$@.zip cover-$@.html coverage-$@.out
 }
