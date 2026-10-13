@@ -19,7 +19,8 @@ setopt HIST_IGNORE_ALL_DUPS
 #
 
 # Set editor default keymap to emacs (`-e`) or vi (`-v`)
-bindkey -e
+bindkey -v
+KEYTIMEOUT=1 # Esc switches to normal mode after 10 ms instead of 0.4 s
 
 # Prompt for spelling correction of commands.
 #setopt CORRECT
