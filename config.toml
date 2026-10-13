@@ -77,3 +77,11 @@ tap_to_click = true
 "com.apple.screencapture" = { type = "png", location = "~/Desktop/Screenshots" }
 "com.apple.AppleMultitouchTrackpad" = { TrackpadRightClick = true }
 "com.apple.driver.AppleBluetoothMultitouch.trackpad" = { TrackpadRightClick = true }
+
+# Turn off macOS's Ctrl-Space "select previous input source" (hotkey 60) so
+# Ctrl-Space reaches tmux as the prefix.
+[[bootstrap.macos.defaults_entries]]
+domain = "com.apple.symbolichotkeys"
+key = "AppleSymbolicHotKeys"
+path = ["60"]
+value = { enabled = false, value = { parameters = [32, 49, 262144], type = "standard" } }
