@@ -37,7 +37,7 @@ install scripts.
 | See what differs from the config | `mise bootstrap status` |
 | Add a CLI tool | `mise use -g <tool>` (writes to `config.toml`), commit |
 | Update tools | `mise upgrade`, then `mise bootstrap` (repoints the Docker buildx plugin), commit `mise.lock` / `mise.work.lock` |
-| Add a dotfile | put it in `home/`, add a line under `[dotfiles]`, `mise bootstrap` |
+| Add a dotfile | put it in `home/`, add a line under `[dotfiles]`, `mise dotfiles apply` (links dotfiles only) |
 | Add a GUI app | add `"brew-cask:<name>" = {}` under `[bootstrap.packages]` ([find names](https://formulae.brew.sh/cask/)) |
 | Edit a dotfile | edit it in place (`~/.zshrc` etc. are symlinks into `home/`) |
 
@@ -76,8 +76,16 @@ includes everything in `~/.ssh/config.d/`.
 
 - **Shell:** zsh with [Zim](https://zimfw.sh) (modules in `home/.zimrc`, it
   installs itself on first start). `.zprofile` sets environment and PATH,
-  `.zshrc` does interactive setup. fzf (Ctrl-R, Ctrl-T) and zoxide (`z <dir>`).
-- **Terminal:** Ghostty opens straight into the tmux session `default`.
+  `.zshrc` does interactive setup. Vi keys: Esc for normal mode, `k`/`j` search
+  history. fzf (Ctrl-R, Ctrl-T) and zoxide (`z <dir>` jumps to any folder
+  you've visited).
+- **Terminal:** Ghostty opens straight into the tmux session `default`. tmux
+  prefix is `C-Space`: `\` and `-` split, `hjkl` move, `v` opens the pane's
+  scrollback in Neovim; `y` in copy mode copies to the system clipboard.
+- **Keyboard:** Caps Lock is Ctrl when held and Esc when tapped
+  (Karabiner-Elements; the rule is in `home/.config/karabiner/`). Vim keys
+  everywhere: zsh, tmux copy mode, Neovim, and IntelliJ through IdeaVim, whose
+  `home/.ideavimrc` mirrors the Neovim keymaps.
 - **Workspace:** repos go in `~/workspace/personal/` (every machine) or
   `~/workspace/dnb/` (work; uses the work git identity), one folder per repo.
 - **Git:** `home/.gitconfig`, global ignore in `home/.config/git/ignore`.
@@ -102,6 +110,8 @@ These live outside the repo on purpose. Each tool creates and owns its own:
 | `~/.zim/` | Zim: modules, downloaded on first shell start |
 | `~/.local/share/nvim/` | Neovim: plugins, Mason servers, treesitter parsers |
 | `~/.local/share/mise/`, `~/.local/state/mise/` | mise: installed tools and bootstrap state |
+| `~/.config/karabiner/karabiner.json` | Karabiner: which rules are enabled |
+| `~/Library/Application Support/JetBrains/` | IntelliJ: settings, plugins (IdeaVim), memory |
 
 Two catches:
 
@@ -113,14 +123,16 @@ Two catches:
 
 ## Manual steps
 
-- Caps Lock (hold for Ctrl, tap for Esc): open Karabiner-Elements, approve its
-  driver and Input Monitoring when macOS asks, then Complex Modifications → Add
-  predefined rule → enable "Change caps_lock to control if pressed with other
-  keys, to escape if pressed alone" (the rule file comes from this repo; Karabiner
-  keeps which rules are on in its own `karabiner.json`).
+- Caps Lock (hold for Ctrl, tap for Esc): open Karabiner-Elements, then in
+  System Settings turn on its driver (General → Login Items & Extensions →
+  Driver Extensions) and allow Karabiner-Core-Service under Privacy & Security →
+  Input Monitoring. Until the driver is on, Caps Lock stays Caps Lock. Then in
+  Karabiner: Complex Modifications → Add predefined rule → enable "Change
+  caps_lock to control if pressed with other keys, to escape if pressed alone".
 - SSH keys: put `github-personal` (and `github-dnb` at work) in `~/.ssh/` and
   add the `.pub` to each GitHub account. Check with `ssh -T git@github.com` and
   `ssh -T dnb@dnb.ghe.com` (the DNB host's SSH user is `dnb`, not `git`).
-- IntelliJ: point the project SDK at `~/.local/share/mise/installs/java/corretto-25`.
+- IntelliJ: install the IdeaVim plugin (Settings → Plugins), and point the
+  project SDK at `~/.local/share/mise/installs/java/corretto-25`.
 - Work laptop: run `raicode` to sign in, then `raicode manage fix-certs` and
   open a new terminal.
