@@ -112,6 +112,8 @@ These live outside the repo on purpose. Each tool creates and owns its own:
 | `~/.local/share/mise/`, `~/.local/state/mise/` | mise: installed tools and bootstrap state |
 | `~/.config/karabiner/karabiner.json` | Karabiner: which rules are enabled |
 | `~/Library/Application Support/JetBrains/` | IntelliJ: settings, plugins (IdeaVim), memory |
+| `~/Library/Application Support/tldraw/` | tldraw offline: app data, and `server.json` with the local agent API's port and token |
+| `~/skills/tldraw-offline/`, `~/.claude/skills/tldraw-offline/`, `~/.claude/agents/tldraw-offline.md`, the `SubagentStart` hook in `~/.claude/settings.json` | tldraw offline's Develop → Install Agent Skills (remove with Develop → Uninstall Agent Skills) |
 
 Two catches:
 
