@@ -79,7 +79,7 @@ includes everything in `~/.ssh/config.d/`.
   `.zshrc` does interactive setup. Vi keys: Esc for normal mode, `k`/`j` search
   history. fzf (Ctrl-R, Ctrl-T) and zoxide (`z <dir>` jumps to any folder
   you've visited).
-- **Terminal:** Ghostty opens straight into the tmux session `default`. tmux
+- **Terminal:** Ghostty opens straight into the tmux session `main`. tmux
   prefix is `C-Space`: `\` and `-` split, `hjkl` move, `v` opens the pane's
   scrollback in Neovim; `y` in copy mode copies to the system clipboard.
 - **Keyboard:** Caps Lock is Ctrl when held and Esc when tapped
