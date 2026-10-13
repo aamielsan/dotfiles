@@ -54,6 +54,7 @@ mode = "0700"
 "~/.gitconfig" = "home/.gitconfig"
 "~/.config/git" = "home/.config/git"
 "~/.tmux.conf" = "home/.tmux.conf"
+"~/.ideavimrc" = "home/.ideavimrc"
 "~/.config/ghostty/config.ghostty" = "home/.config/ghostty/config.ghostty"
 "~/.ssh/config" = "home/.ssh/config"
 

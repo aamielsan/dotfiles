@@ -1,0 +1,46 @@
+" IdeaVim: the Neovim config's options and keymaps, mapped to IntelliJ actions.
+" Action IDs: :actionlist, or turn on "Track Action Ids" in IdeaVim's menu.
+
+let mapleader = " "
+
+set clipboard+=unnamedplus
+set number relativenumber
+set scrolloff=8 sidescrolloff=8
+set hlsearch incsearch " on by default in Neovim, off in IdeaVim
+
+" Neovim's built-in gc commenting and nvim-surround
+set commentary
+set surround
+
+nnoremap Y y$
+inoremap jj <Esc>
+inoremap jk <Esc>
+nnoremap j gj
+nnoremap k gk
+nnoremap <Esc> :nohlsearch<CR>
+nnoremap <C-s> :w<CR>
+inoremap <C-s> <Esc>:w<CR>
+vnoremap <C-s> <Esc>:w<CR>
+
+" Pickers, explorer and terminal (snacks.nvim in Neovim)
+nnoremap <Leader>f <Action>(FindInPath)
+nnoremap <Leader>p <Action>(GotoFile)
+nnoremap <Leader>o <Action>(RecentFiles)
+nnoremap <Leader>l <Action>(ActivateProjectToolWindow)
+nnoremap <Leader>t <Action>(ActivateTerminalToolWindow)
+
+" Format (conform.nvim's =)
+nnoremap = <Action>(ReformatCode)
+vnoremap = <Action>(ReformatCode)
+
+" LSP keymaps
+nnoremap K <Action>(QuickJavaDoc)
+nnoremap gd <Action>(GotoDeclaration)
+nnoremap gD <Action>(GotoDeclaration)
+nnoremap gi <Action>(GotoImplementation)
+nnoremap go <Action>(GotoTypeDeclaration)
+nnoremap gr <Action>(ShowUsages)
+nnoremap gs <Action>(ParameterInfo)
+nnoremap gl <Action>(ShowErrorDescription)
+nnoremap [d <Action>(GotoPreviousError)
+nnoremap ]d <Action>(GotoNextError)
