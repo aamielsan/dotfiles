@@ -37,6 +37,7 @@ docker-cli = "latest"
 "brew-cask:intellij-idea" = { adopt = true }
 "brew-cask:karabiner-elements" = { adopt = true } # Caps Lock: hold for Ctrl, tap for Esc
 "brew-cask:slack" = { adopt = true }
+"brew-cask:tldraw" = { adopt = true } # tldraw offline: local whiteboard agents can edit
 
 [bootstrap.directories."~/.ssh"]
 mode = "0700"
