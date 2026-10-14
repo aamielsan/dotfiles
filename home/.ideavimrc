@@ -1,5 +1,6 @@
 " IdeaVim: the Neovim config's options and keymaps, mapped to IntelliJ actions.
 " Action IDs: :actionlist, or turn on "Track Action Ids" in IdeaVim's menu.
+" <Action> mappings must use nmap/vmap: they don't work with noremap.
 
 let mapleader = " "
 
@@ -23,24 +24,24 @@ inoremap <C-s> <Esc>:w<CR>
 vnoremap <C-s> <Esc>:w<CR>
 
 " Pickers, explorer and terminal (snacks.nvim in Neovim)
-nnoremap <Leader>f <Action>(FindInPath)
-nnoremap <Leader>p <Action>(GotoFile)
-nnoremap <Leader>o <Action>(RecentFiles)
-nnoremap <Leader>l <Action>(ActivateProjectToolWindow)
-nnoremap <Leader>t <Action>(ActivateTerminalToolWindow)
+nmap <Leader>f <Action>(FindInPath)
+nmap <Leader>p <Action>(GotoFile)
+nmap <Leader>o <Action>(RecentFiles)
+nmap <Leader>l <Action>(ActivateProjectToolWindow)
+nmap <Leader>t <Action>(ActivateTerminalToolWindow)
 
 " Format (conform.nvim's =)
-nnoremap = <Action>(ReformatCode)
-vnoremap = <Action>(ReformatCode)
+nmap = <Action>(ReformatCode)
+vmap = <Action>(ReformatCode)
 
 " LSP keymaps
-nnoremap K <Action>(QuickJavaDoc)
-nnoremap gd <Action>(GotoDeclaration)
-nnoremap gD <Action>(GotoDeclaration)
-nnoremap gi <Action>(GotoImplementation)
-nnoremap go <Action>(GotoTypeDeclaration)
-nnoremap gr <Action>(ShowUsages)
-nnoremap gs <Action>(ParameterInfo)
-nnoremap gl <Action>(ShowErrorDescription)
-nnoremap [d <Action>(GotoPreviousError)
-nnoremap ]d <Action>(GotoNextError)
+nmap K <Action>(QuickJavaDoc)
+nmap gd <Action>(GotoDeclaration)
+nmap gD <Action>(GotoDeclaration)
+nmap gi <Action>(GotoImplementation)
+nmap go <Action>(GotoTypeDeclaration)
+nmap gr <Action>(ShowUsages)
+nmap gs <Action>(ParameterInfo)
+nmap gl <Action>(ShowErrorDescription)
+nmap [d <Action>(GotoPreviousError)
+nmap ]d <Action>(GotoNextError)
