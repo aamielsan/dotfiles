@@ -37,7 +37,7 @@ Each was measured on this machine. Re-open one only with new evidence.
 - **`core.fsmonitor` stays off.** Its daemon round trip made every prompt slower, even in the 27k-file `server-side` repo. For a slow prompt in one big repo, set `git config zim.hide-dirty true` in that repo.
 - **mise:** shims in `.zprofile`, `mise activate` in `.zshrc`. Shims alone add 9–15 ms to every command and drop `JAVA_HOME`; `hook_env.chpwd_only` changed nothing.
 - **Prompt** is Zim's asciiship. Starship took ~540 ms in `server-side`.
-- **tmux** stays, because sessions must outlive the terminal. Prefix `C-Space` (Caps Lock + Space via Karabiner). Panes are login shells; non-login panes measured no gain.
+- **tmux** stays, because sessions must outlive the terminal. Prefix `C-a`. Panes are login shells; non-login panes measured no gain.
 - **Claude Code** is installed by mise, since raicode can only install it with Homebrew.
 
 ## Testing gotchas

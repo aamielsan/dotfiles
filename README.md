@@ -80,7 +80,7 @@ includes everything in `~/.ssh/config.d/`.
   history. fzf (Ctrl-R, Ctrl-T) and zoxide (`z <dir>` jumps to any folder
   you've visited).
 - **Terminal:** Ghostty opens straight into the tmux session `main`. tmux
-  prefix is `C-Space`: `\` and `-` split, `hjkl` move, `v` opens the pane's
+  prefix is `C-a`: `\` and `-` split, `hjkl` move, `v` opens the pane's
   scrollback in Neovim; `y` in copy mode copies to the system clipboard.
 - **Keyboard:** Caps Lock is Ctrl when held and Esc when tapped
   (Karabiner-Elements; the rule is in `home/.config/karabiner/`). Vim keys
@@ -134,7 +134,8 @@ Two catches:
 - SSH keys: put `github-personal` (and `github-dnb` at work) in `~/.ssh/` and
   add the `.pub` to each GitHub account. Check with `ssh -T git@github.com` and
   `ssh -T dnb@dnb.ghe.com` (the DNB host's SSH user is `dnb`, not `git`).
-- IntelliJ: install the IdeaVim plugin (Settings → Plugins), and point the
-  project SDK at `~/.local/share/mise/installs/java/corretto-25`.
+- IntelliJ: turn on Settings → Backup and Sync with your JetBrains account; it
+  restores settings and plugins (IdeaVim) on a new machine. Point the project
+  SDK at `~/.local/share/mise/installs/java/corretto-25`.
 - Work laptop: run `raicode` to sign in, then `raicode manage fix-certs` and
   open a new terminal.
