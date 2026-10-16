@@ -16,6 +16,7 @@ fd = "latest"
 fzf = "latest"
 zoxide = "latest"
 jq = "latest"
+yq = "latest"
 gh = "latest"
 opa = "latest" # Open Policy Agent
 tmux = "latest"

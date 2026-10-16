@@ -204,6 +204,17 @@ url = "https://github.com/astral-sh/uv/releases/download/0.13.0/uv-aarch64-apple
 url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/626002972"
 provenance = "github-attestations"
 
+[[tools.yq]]
+version = "4.54.1"
+backend = "aqua:mikefarah/yq"
+specifiers = ["latest"]
+
+[tools.yq."platforms.macos-arm64"]
+checksum = "sha512:1af826b55ee90064b9b9b0e3c02b46ec763abc2f0fe0edbb05a7868181ed619e8650218f9f42ef7b96fd0d6f9f5730d10b6f1b89cd183764b79e6b152a2f42c1"
+url = "https://github.com/mikefarah/yq/releases/download/v4.54.1/yq_darwin_arm64"
+url_api = "https://api.github.com/repos/mikefarah/yq/releases/assets/597222609"
+provenance = "cosign"
+
 [[tools.zoxide]]
 version = "0.10.0"
 backend = "aqua:ajeetdsouza/zoxide"
