@@ -17,6 +17,7 @@ fzf = "latest"
 zoxide = "latest"
 jq = "latest"
 gh = "latest"
+opa = "latest" # Open Policy Agent
 tmux = "latest"
 neovim = "latest"
 tree-sitter = "latest" # nvim-treesitter compiles parsers with it

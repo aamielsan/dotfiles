@@ -142,6 +142,16 @@ specifiers = ["lts"]
 checksum = "sha256:bed7eea5325e1108f32ce5228ddd6a5f0f08a499ee42aa7442aea583702f6057"
 url = "https://nodejs.org/dist/v24.21.0/node-v24.21.0-darwin-arm64.tar.gz"
 
+[[tools.opa]]
+version = "1.21.2"
+backend = "aqua:open-policy-agent/opa"
+specifiers = ["latest"]
+
+[tools.opa."platforms.macos-arm64"]
+checksum = "sha256:e358121f0d96a41103499d878184e493cc5ab10956f98e835089b9de0ac2de62"
+url = "https://github.com/open-policy-agent/opa/releases/download/v1.21.2/opa_darwin_arm64_static"
+url_api = "https://api.github.com/repos/open-policy-agent/opa/releases/assets/633955568"
+
 [[tools.python]]
 version = "3.15.0"
 backend = "core:python"
