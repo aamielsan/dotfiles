@@ -3,13 +3,13 @@
 lockfile_version = 3
 
 [[tools.aws-cli]]
-version = "2.37.12"
+version = "2.38.1"
 backend = "aqua:aws/aws-cli"
 specifiers = ["latest"]
 
 [tools.aws-cli."platforms.macos-arm64"]
-checksum = "blake3:2bb2d828c9e31a2d79f4db60fde7232af0b252b9e7d3a3b3c4c1e29998e14bf7"
-url = "https://awscli.amazonaws.com/AWSCLIV2-2.37.12.pkg"
+checksum = "blake3:2ab7bb5c059ca201ca969a112ef2de83e32788a8bc7a3473afe2fda999f03ef6"
+url = "https://awscli.amazonaws.com/AWSCLIV2-2.38.1.pkg"
 
 [[tools."npm:aws-cdk"]]
 version = "2.1145.0"
