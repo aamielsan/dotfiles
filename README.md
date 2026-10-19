@@ -36,7 +36,7 @@ install scripts.
 | Re-apply everything after editing | `mise bootstrap` (`--dry-run` first to preview) |
 | See what differs from the config | `mise bootstrap status` |
 | Add a CLI tool | `mise use -g <tool>` (writes to `config.toml`), commit |
-| Update tools | `mise upgrade`, then `mise bootstrap` (repoints the Docker buildx plugin), commit `mise.lock` / `mise.work.lock` |
+| Update tools | `mise upgrade`, then `mise bootstrap` (repoints the Docker buildx and compose plugins), commit `mise.lock` / `mise.work.lock` |
 | Add a dotfile | put it in `home/`, add a line under `[dotfiles]`, `mise dotfiles apply` (links dotfiles only) |
 | Add a GUI app | add `"brew-cask:<name>" = {}` under `[bootstrap.packages]` ([find names](https://formulae.brew.sh/cask/)) |
 | Edit a dotfile | edit it in place (`~/.zshrc` etc. are symlinks into `home/`) |

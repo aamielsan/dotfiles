@@ -32,6 +32,7 @@ colima = "latest"
 lima = "latest"
 docker-cli = "latest"
 "github:docker/buildx" = { version = "latest", bin = "docker-buildx" }
+docker-compose = "latest"
 
 # GUI apps from Homebrew's cask catalogue (Homebrew itself isn't installed).
 # adopt = true keeps an app that's already in /Applications instead of
@@ -69,9 +70,13 @@ mode = "0700"
 
 # Docker finds CLI plugins in ~/.docker/cli-plugins. A hook rather than a
 # [dotfiles] entry because dotfiles are linked before tools are installed.
-# Re-run `mise bootstrap` after `mise upgrade` to repoint it.
+# Re-run `mise bootstrap` after `mise upgrade` to repoint them.
 [bootstrap.hooks]
-post-tools = 'mkdir -p ~/.docker/cli-plugins && ln -sfn "$("$HOME/.local/bin/mise" where github:docker/buildx)/docker-buildx" ~/.docker/cli-plugins/docker-buildx'
+post-tools = '''
+mkdir -p ~/.docker/cli-plugins
+ln -sfn "$("$HOME/.local/bin/mise" where github:docker/buildx)/docker-buildx" ~/.docker/cli-plugins/docker-buildx
+ln -sfn "$("$HOME/.local/bin/mise" where docker-compose)/docker-compose" ~/.docker/cli-plugins/docker-compose
+'''
 
 [bootstrap.macos.finder]
 show_all_files = true
