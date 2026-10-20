@@ -132,8 +132,8 @@ Two catches:
   Input Monitoring. Until the driver is on, Caps Lock stays Caps Lock. Then in
   Karabiner: Complex Modifications → Add predefined rule → enable "Change
   caps_lock to control if pressed with other keys, to escape if pressed alone".
-- SSH keys: put `github-personal` (and `github-dnb` at work) in `~/.ssh/` and
-  add the `.pub` to each GitHub account. Check with `ssh -T git@github.com` and
+- SSH keys: put `github-personal` (and `github-dnb` and `gitlab-dnb` at work) in
+  `~/.ssh/` and add each `.pub` to its account. Check with `ssh -T git@github.com` and
   `ssh -T dnb@dnb.ghe.com` (the DNB host's SSH user is `dnb`, not `git`).
 - IntelliJ: turn on Settings → Backup and Sync with your JetBrains account; it
   restores settings and plugins (IdeaVim) on a new machine. Point the project
