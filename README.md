@@ -78,10 +78,12 @@ includes everything in `~/.ssh/config.d/`.
   installs itself on first start). `.zprofile` sets environment and PATH,
   `.zshrc` does interactive setup. Vi keys: Esc for normal mode, `k`/`j` search
   history. fzf (Ctrl-R, Ctrl-T) and zoxide (`z <dir>` jumps to any folder
-  you've visited).
+  you've visited). Git aliases come from Zim's git module with a lowercase
+  prefix (`gf` fetch, `gr` rebase, `gb` branch, …); `gh` stays the GitHub CLI.
 - **Terminal:** Ghostty opens straight into the tmux session `main`. tmux
   prefix is `C-a`: `\` and `-` split, `hjkl` move, `v` opens the pane's
-  scrollback in Neovim; `y` in copy mode copies to the system clipboard.
+  scrollback in Neovim; `y` in copy mode copies to the system clipboard. The
+  session name in the status bar flips colour while the prefix is held.
 - **Keyboard:** Caps Lock is Ctrl when held and Esc when tapped
   (Karabiner-Elements; the rule is in `home/.config/karabiner/`). Vim keys
   everywhere: zsh, tmux copy mode, Neovim, and IntelliJ through IdeaVim, whose
@@ -93,10 +95,22 @@ includes everything in `~/.ssh/config.d/`.
   [aamielsan/nvim](https://github.com/aamielsan/nvim), cloned to
   `~/.config/nvim`. mise provides Neovim and the runtimes; Mason (inside
   Neovim) installs language servers and formatters.
+- **Kotlin in Neovim:** the language server comes from mise for now, because
+  Mason's package can't download it
+  ([mason-registry#17323](https://github.com/mason-org/mason-registry/pull/17323)).
+  Open Neovim inside the Gradle project you work on; the first open imports it
+  (under a minute), later opens take seconds. `:lsp restart` re-imports. It
+  doesn't follow Gradle `includeBuild` yet
+  ([kotlin-lsp#109](https://github.com/Kotlin/kotlin-lsp/issues/109)), so use
+  IntelliJ for code in included builds such as `common-kotlin`.
 - **Claude Code:** installed by mise (raicode can only install it with
   Homebrew). At work, launch it through `raicode`.
 - **Containers:** `colima start` before using Docker (it isn't started
   automatically). For amd64-only images, `colima start --vz-rosetta`.
+  `docker buildx` and `docker compose` work as plugins (linked by the bootstrap
+  hook).
+- **Whiteboard:** tldraw offline. Its Develop → Install Agent Skills lets
+  Claude Code draw on the canvases you have open.
 
 ## Files other tools write
 
