@@ -1,137 +1,39 @@
-# Start configuration added by Zim install {{{
-#
-# User configuration sourced by interactive shells
-#
+# Interactive shell setup. Environment and PATH live in .zprofile.
 
-# -----------------
-# Zsh configuration
-# -----------------
+setopt HIST_IGNORE_ALL_DUPS   # a repeated command replaces its older history entry
+bindkey -v                    # vi keys
+KEYTIMEOUT=1                  # Esc switches to normal mode after 10 ms instead of 0.4 s
+WORDCHARS=${WORDCHARS//[\/]}  # word motions stop at /
 
-#
-# History
-#
-
-# Remove older command from the history if a duplicate is to be added.
-setopt HIST_IGNORE_ALL_DUPS
-
-#
-# Input/output
-#
-
-# Set editor default keymap to emacs (`-e`) or vi (`-v`)
-bindkey -v
-KEYTIMEOUT=1 # Esc switches to normal mode after 10 ms instead of 0.4 s
-
-# Prompt for spelling correction of commands.
-#setopt CORRECT
-
-# Customize spelling correction prompt.
-#SPROMPT='zsh: correct %F{red}%R%f to %F{green}%r%f [nyae]? '
-
-# Remove path separator from WORDCHARS.
-WORDCHARS=${WORDCHARS//[\/]}
-
-# -----------------
-# Zim configuration
-# -----------------
-
-# Use degit instead of git as the default tool to install and update modules.
-#zstyle ':zim:zmodule' use 'degit'
-
-# --------------------
-# Module configuration
-# --------------------
-
-#
-# git
-#
-
-# Set a custom prefix for the generated aliases. The default prefix is 'G'.
-zstyle ':zim:git' aliases-prefix 'g'
-
-#
-# input
-#
-
-# Append `../` to your input for each `.` you type after an initial `..`
-#zstyle ':zim:input' double-dot-expand yes
-
-#
-# termtitle
-#
-
-# Set a custom terminal title format using prompt expansion escape sequences.
-# See http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html#Simple-Prompt-Escapes
-# If none is provided, the default '%n@%m: %~' is used.
-#zstyle ':zim:termtitle' format '%1~'
-
-#
-# zsh-autosuggestions
-#
-
-# Disable automatic widget re-binding on each precmd. This can be set when
-# zsh-users/zsh-autosuggestions is the last module in your ~/.zimrc.
-ZSH_AUTOSUGGEST_MANUAL_REBIND=1
-
-# Customize the style that the suggestions are shown with.
-# See https://github.com/zsh-users/zsh-autosuggestions/blob/master/README.md#suggestion-highlight-style
-#ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=242'
-
-#
-# zsh-syntax-highlighting
-#
-
-# Set what highlighters will be used.
-# See https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/docs/highlighters.md
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
-
-# Customize the main highlighter styles.
-# See https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/docs/highlighters/main.md#how-to-tweak-it
-#typeset -A ZSH_HIGHLIGHT_STYLES
-#ZSH_HIGHLIGHT_STYLES[comment]='fg=242'
-
-# ------------------
-# Initialize modules
-# ------------------
+# Zim module settings; they must be set before Zim loads.
+zstyle ':zim:git' aliases-prefix 'g'       # lowercase git aliases: gf, gr, gb, ...
+ZSH_AUTOSUGGEST_MANUAL_REBIND=1            # faster prompts; autosuggestions loads last in .zimrc
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets) # also highlight matching brackets
 
 # mise: put tools on PATH before Zim loads (Zim's fzf module needs fzf).
 eval "$(mise activate zsh)"
 
-ZIM_HOME=${ZDOTDIR:-${HOME}}/.zim
-# Download zimfw plugin manager if missing.
-if [[ ! -e ${ZIM_HOME}/zimfw.zsh ]]; then
-  if (( ${+commands[curl]} )); then
-    curl -fsSL --create-dirs -o ${ZIM_HOME}/zimfw.zsh \
-        https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
-  else
-    mkdir -p ${ZIM_HOME} && wget -nv -O ${ZIM_HOME}/zimfw.zsh \
-        https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
-  fi
+# Zim: download zimfw on first start, reinstall modules whenever .zimrc
+# changes, then load them.
+ZIM_HOME=~/.zim
+if [[ ! -e $ZIM_HOME/zimfw.zsh ]]; then
+  curl -fsSL --create-dirs -o $ZIM_HOME/zimfw.zsh \
+      https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
 fi
-# Install missing modules, and update ${ZIM_HOME}/init.zsh if missing or outdated.
-if [[ ! ${ZIM_HOME}/init.zsh -nt ${ZIM_CONFIG_FILE:-${ZDOTDIR:-${HOME}}/.zimrc} ]]; then
-  source ${ZIM_HOME}/zimfw.zsh init
+if [[ ! $ZIM_HOME/init.zsh -nt ~/.zimrc ]]; then
+  source $ZIM_HOME/zimfw.zsh init
 fi
-# Initialize modules.
-source ${ZIM_HOME}/init.zsh
+source $ZIM_HOME/init.zsh
 unalias gh # Zim's git module maps gh to `git help`; keep the GitHub CLI
 
-# ------------------------------
-# Post-init module configuration
-# ------------------------------
-
-#
-# zsh-history-substring-search
-#
-
+# Up/down (k/j in normal mode) search history for what's typed so far.
+# Bound here as well as by the module, so they work before zle-line-init too.
 zmodload -F zsh/terminfo +p:terminfo
-# Bind ^[[A/^[[B manually so up/down works both before and after zle-line-init
-for key ('^[[A' '^P' ${terminfo[kcuu1]}) bindkey ${key} history-substring-search-up
-for key ('^[[B' '^N' ${terminfo[kcud1]}) bindkey ${key} history-substring-search-down
-for key ('k') bindkey -M vicmd ${key} history-substring-search-up
-for key ('j') bindkey -M vicmd ${key} history-substring-search-down
+for key ('^[[A' '^P' ${terminfo[kcuu1]}) bindkey $key history-substring-search-up
+for key ('^[[B' '^N' ${terminfo[kcud1]}) bindkey $key history-substring-search-down
+bindkey -M vicmd k history-substring-search-up
+bindkey -M vicmd j history-substring-search-down
 unset key
-# }}} End configuration added by Zim install
 
 # Work aliases. ~/.aliases.work only exists on machines with the mise `work` env.
 [[ -f ~/.aliases.work ]] && source ~/.aliases.work
