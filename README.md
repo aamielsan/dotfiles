@@ -90,6 +90,10 @@ includes everything in `~/.ssh/config.d/`.
   `home/.ideavimrc` mirrors the Neovim keymaps.
 - **Workspace:** repos go in `~/workspace/personal/` (every machine) or
   `~/workspace/dnb/` (work; uses the work git identity), one folder per repo.
+  To work on several branches of one repo at once, `wma <branch>` makes a git
+  worktree in `<repo>__worktrees/` and opens a tmux window in it ([workmux](https://github.com/raine/workmux)).
+  `wml` lists them, `wmx <branch>` removes one (worktree, window and branch).
+  Closing the window keeps the worktree; `wmo <branch>` reopens it.
 - **Git:** `home/.gitconfig`, global ignore in `home/.config/git/ignore`.
 - **Neovim:** config lives in its own repo,
   [aamielsan/nvim](https://github.com/aamielsan/nvim), cloned to

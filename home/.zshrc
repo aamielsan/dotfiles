@@ -38,5 +38,13 @@ unset key
 # Work aliases. ~/.aliases.work only exists on machines with the mise `work` env.
 [[ -f ~/.aliases.work ]] && source ~/.aliases.work
 
+# Worktrees: workmux gives each one its own tmux window.
+alias wm='workmux'
+alias wma='workmux add'   # wma <branch> [--base upstream/master]
+alias wml='workmux ls'
+alias wmo='workmux open'  # reopen a closed window
+alias wmc='workmux close' # close the window, keep the worktree
+alias wmx='workmux rm'    # remove worktree, window and branch
+
 # zoxide (`z <dir>`): must come after compinit, so keep it last.
 eval "$(zoxide init zsh)"

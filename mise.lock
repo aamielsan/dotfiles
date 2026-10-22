@@ -214,6 +214,16 @@ url = "https://github.com/astral-sh/uv/releases/download/0.13.1/uv-aarch64-apple
 url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/639312976"
 provenance = "github-attestations"
 
+[[tools.workmux]]
+version = "0.1.276"
+backend = "github:raine/workmux"
+specifiers = ["latest"]
+
+[tools.workmux."platforms.macos-arm64"]
+checksum = "sha256:52277f115e350dd8e7d9c157cbf273395a5a49f8dbc1d304db5b731e9513fd8c"
+url = "https://github.com/raine/workmux/releases/download/v0.1.276/workmux-darwin-arm64.tar.gz"
+url_api = "https://api.github.com/repos/raine/workmux/releases/assets/639360654"
+
 [[tools.yq]]
 version = "4.54.1"
 backend = "aqua:mikefarah/yq"

@@ -20,6 +20,7 @@ yq = "latest"
 gh = "latest"
 opa = "latest" # Open Policy Agent
 tmux = "latest"
+workmux = "latest" # one tmux window per git worktree
 neovim = "latest"
 tree-sitter = "latest" # nvim-treesitter compiles parsers with it
 # Kotlin LSP for Neovim, until Mason's package works again (mason-registry#17323:
@@ -61,6 +62,7 @@ docker-compose = "latest"
 "~/.gitconfig" = "home/.gitconfig"
 "~/.config/git" = "home/.config/git"
 "~/.tmux.conf" = "home/.tmux.conf"
+"~/.config/workmux/config.yaml" = "home/.config/workmux/config.yaml"
 "~/.ideavimrc" = "home/.ideavimrc"
 "~/.config/ghostty/config.ghostty" = "home/.config/ghostty/config.ghostty"
 "~/.config/karabiner/assets/complex_modifications/caps-lock.json" = "home/.config/karabiner/assets/complex_modifications/caps-lock.json"

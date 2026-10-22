@@ -1,0 +1,6 @@
+# workmux: one tmux window per git worktree. Aliases (wma, wmx, ...) are in .zshrc.
+nerdfont: false          # plain window names, and no first-run font prompt
+window_prefix: ''        # windows are named after the branch, like the others
+auto_update_check: false # mise installs and upgrades it
+panes:
+  - focus: true          # one shell; start raicode or nvim yourself
