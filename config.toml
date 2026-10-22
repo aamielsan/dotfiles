@@ -45,12 +45,10 @@ docker-compose = "latest"
 "brew-cask:slack" = { adopt = true }
 "brew-cask:tldraw" = { adopt = true } # tldraw offline: local whiteboard agents can edit
 
-[bootstrap.directories."~/.ssh"]
-mode = "0700"
-
-[bootstrap.directories."~/Desktop/Screenshots"]
-
-[bootstrap.directories."~/workspace/personal"]
+[bootstrap.directories]
+"~/.ssh" = { mode = "0700" }
+"~/Desktop/Screenshots" = {}
+"~/workspace/personal" = {}
 
 [bootstrap.repos]
 "~/.config/nvim" = { url = "https://github.com/aamielsan/nvim.git" }
