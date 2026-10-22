@@ -1,4 +1,3 @@
-# Machine-local mise settings (e.g. env = ["work"])
-miserc.local.toml
+# Machine-local mise settings (e.g. miserc.local.toml with env = ["work"])
 *.local.toml
 *.local.lock
