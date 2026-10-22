@@ -4,7 +4,6 @@
 zmodule environment # sane built-in zsh options
 zmodule git         # git aliases (prefix set in .zshrc)
 zmodule input       # correct bindings for Home, End, Delete, ...
-zmodule termtitle   # sets the terminal title
 zmodule utility     # colour for ls, grep and less
 zmodule fzf         # Ctrl-R history, Ctrl-T files, Alt-C cd; needs fzf on PATH
 
