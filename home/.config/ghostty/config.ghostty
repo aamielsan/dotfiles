@@ -1,5 +1,4 @@
 fullscreen = true
-font-family = "JetBrains Mono"
 font-size = 15
 theme = "dark:Rose Pine Moon,light:Rose Pine Dawn"
 # Padding takes the nearest cell's colour, so tmux's status bar reaches the window edges.
