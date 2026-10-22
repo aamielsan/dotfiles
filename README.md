@@ -123,7 +123,7 @@ These live outside the repo on purpose. Each tool creates and owns its own:
 | `~/.docker/config.json` | Docker: registry credentials |
 | `~/.zim/` | Zim: modules, downloaded on first shell start |
 | `~/.local/share/nvim/` | Neovim: plugins, Mason servers, treesitter parsers |
-| `~/.cache/nvim/kotlin-lsp/` | Kotlin LSP: caches and indexes, about 1 GB per Gradle project opened; safe to delete |
+| `~/.cache/nvim/kotlin-lsp/` | Kotlin LSP: an index of about 2 GB per Gradle build opened (each folder with a `settings.gradle.kts`), plus a copy when two Neovims open the same one; safe to delete |
 | `~/.local/share/mise/`, `~/.local/state/mise/` | mise: installed tools and bootstrap state |
 | `~/.config/karabiner/karabiner.json` | Karabiner: which rules are enabled |
 | `~/Library/Application Support/JetBrains/` | IntelliJ: settings, plugins (IdeaVim), memory |
