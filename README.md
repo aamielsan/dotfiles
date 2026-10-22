@@ -93,7 +93,8 @@ includes everything in `~/.ssh/config.d/`.
   To work on several branches of one repo at once, `wma <branch>` makes a git
   worktree in `<repo>__worktrees/` and opens a tmux window in it ([workmux](https://github.com/raine/workmux)).
   `wml` lists them, `wmx <branch>` removes one (worktree, window and branch).
-  Closing the window keeps the worktree; `wmo <branch>` reopens it.
+  Closing the window keeps the worktree; `wmo <branch>` reopens it. `z` looks
+  in the current repo or worktree first.
 - **Git:** `home/.gitconfig`, global ignore in `home/.config/git/ignore`.
 - **Neovim:** config lives in its own repo,
   [aamielsan/nvim](https://github.com/aamielsan/nvim), cloned to

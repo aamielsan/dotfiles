@@ -46,5 +46,16 @@ alias wmo='workmux open'  # reopen a closed window
 alias wmc='workmux close' # close the window, keep the worktree
 alias wmx='workmux rm'    # remove worktree, window and branch
 
-# zoxide (`z <dir>`): must come after compinit, so keep it last.
+# zoxide (`z <dir>`): must come after compinit, so keep it at the end.
 eval "$(zoxide init zsh)"
+# z searches the current checkout first, so worktrees of one repo don't jump
+# into each other. Falls back to zoxide's own z.
+z() {
+  local top dir
+  if [[ $# -gt 0 && $1 != - && ! -d $1 ]] && top=$(git rev-parse --show-toplevel 2>/dev/null) &&
+      dir=$(zoxide query --base-dir $top --exclude $PWD -- "$@" 2>/dev/null); then
+    cd $dir
+  else
+    __zoxide_z "$@"
+  fi
+}
