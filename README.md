@@ -142,7 +142,8 @@ into `-` (`ai/feat/x` becomes `ai-feat-x`), or what you passed to `wma` with
 `--name <short>`. `wma --dry-run` shows what it would do. Spell the branch
 exactly: a name that doesn't exist creates a new branch from whatever is checked
 out. A branch can be checked out in only one place at a time. Closing a window
-(or its last pane) keeps the worktree.
+(or its last pane) keeps the worktree; after a reboot, `workmux resurrect`
+reopens the worktree windows.
 
 All checkouts of a repo share one zoxide history, so `z`/`zi` open folders in
 the checkout you're in, even a brand-new worktree; switch checkouts with tmux
