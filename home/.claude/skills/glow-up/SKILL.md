@@ -1,6 +1,6 @@
 ---
 name: glow-up
-description: Find, try and keep a few small, evidence-backed improvements to my workflow, ending with a glow-up card.
+description: Find, try and keep a few small, evidence-backed improvements to this workflow, ending with a glow-up card.
 disable-model-invocation: true
 ---
 
@@ -43,7 +43,7 @@ For each picked idea:
 
 1. Apply it live and temporarily first, as `CLAUDE.md` describes (a scratch tmux file, an uncommitted edit, a file to `source`), and let the owner use it.
 2. Keep or drop it on their verdict. A dropped idea is reverted completely.
-3. Persist a keeper: validate (sandbox dry-run with and without `-E work`, shell state, Neovim's effective state), update the README, and commit as `CLAUDE.md` says.
+3. Persist a keeper: validate (sandbox dry-run with and without `-E work`, shell state, Neovim's effective state); if anything beyond the idea changed, fix it and validate again. Then update the README and commit as `CLAUDE.md` says.
 
 Done when every picked idea is either persisted and verified, or dropped and reverted.
 

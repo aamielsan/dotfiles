@@ -1,6 +1,6 @@
 ---
 name: marie-kondo
-description: Declutter my setup (dotfiles, Neovim config, tool leftovers) with evidence, keeping only what earns its place.
+description: Declutter this setup (dotfiles, Neovim config, tool leftovers) with evidence, keeping only what earns its place.
 disable-model-invocation: true
 ---
 
@@ -41,7 +41,7 @@ Then wait for the owner's choices.
 For each approved item:
 
 1. Remove it with the tool's own command (see Reference), so the tool's state stays consistent.
-2. Prove nothing else changed: shell state and startup time, Neovim's effective state, and the sandbox dry-run with and without `-E work` from `CLAUDE.md`.
+2. Prove nothing else changed: shell state and startup time, Neovim's effective state, and the sandbox dry-run with and without `-E work` from `CLAUDE.md`. If anything else changed, put it back and fix the removal before the next item.
 3. Update the README wherever it described the item.
 
 Done when every approved item is gone and verified. Commit as `CLAUDE.md` says: one concern per commit, diff shown first.
@@ -52,7 +52,7 @@ Done when every approved item is gone and verified. Commit as `CLAUDE.md` says: 
 - Neovim: `nvim --clean --headless -c 'lua io.stdout:write(vim.inspect(vim.o.<option>))' -c 'qa!'`; for terminal-dependent options (true colour) measure inside tmux after startup.
 - tmux: `tmux -L kondo -f /dev/null start-server \; show -g <option> \; kill-server`. A setting is also dead when nothing reaches it any more (check `tmux list-keys`).
 - Ghostty: `/Applications/Ghostty.app/Contents/MacOS/ghostty +show-config --default`.
-- gopls: `gopls api-json` lists every option and analyzer with its default.
+- gopls: `~/.local/share/nvim/mason/bin/gopls api-json` lists every option and analyzer with its default (Mason's tools are on Neovim's PATH, not the shell's).
 - zsh: compare shell state with and without the line, captured after running `$precmd_functions`: Zim's input module binds keys only at the first prompt.
 
 **Removal commands**
