@@ -7,3 +7,8 @@ window-padding-color = extend
 # Attach to the "main" tmux session, creating it if needed. Login shell so
 # .zprofile puts mise's tmux on PATH.
 command = /bin/zsh -l -c "tmux new-session -A -s main"
+
+# Ctrl+Tab / Ctrl+Shift+Tab switch tmux windows: they send tmux's C-a prefix, then n or p
+# (update them if the prefix changes). Ghostty's own tabs aren't used.
+keybind = ctrl+tab=text:\x01n
+keybind = ctrl+shift+tab=text:\x01p

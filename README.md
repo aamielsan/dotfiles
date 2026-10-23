@@ -81,7 +81,8 @@ includes everything in `~/.ssh/config.d/`.
   you've visited). Git aliases come from Zim's git module with a lowercase
   prefix (`gf` fetch, `gr` rebase, `gb` branch, …); `gh` stays the GitHub CLI.
 - **Terminal:** Ghostty opens straight into the tmux session `main`. tmux
-  prefix is `C-a`: `\` and `-` split, `hjkl` move, `v` opens the pane's
+  prefix is `C-a`: `\` and `-` split, `hjkl` move, Ctrl+Tab and Ctrl+Shift+Tab
+  switch windows, `v` opens the pane's
   scrollback in Neovim; `y` in copy mode copies to the system clipboard. The
   status bar sits at the top and highlights the current window; the session
   name flips colour while the prefix is held.
