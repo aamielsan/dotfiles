@@ -94,9 +94,9 @@ includes everything in `~/.ssh/config.d/`.
   To work on several branches of one repo at once, `wma <branch>` makes a git
   worktree in `<repo>__worktrees/` and opens a tmux window in it ([workmux](https://github.com/raine/workmux)).
   `wml` lists them, `wmx <branch>` removes one (worktree, window and branch).
-  Closing the window keeps the worktree; `wmo <branch>` reopens it. `z` looks
-  in the current repo or worktree first, and a match in another checkout of
-  the same repo opens the same folder in this one, even in a new worktree.
+  Closing the window keeps the worktree; `wmo <branch>` reopens it. All
+  checkouts of a repo share one zoxide history, and `z`/`zi` open folders in
+  the checkout you're in, even a new worktree; switch checkouts with tmux.
   At work, a LaunchAgent keeps my server-side fork's `master` equal to
   upstream's (`gh repo sync`, at login and hourly, fast-forward only).
 - **Git:** `home/.gitconfig`, global ignore in `home/.config/git/ignore`.

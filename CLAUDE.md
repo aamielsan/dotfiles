@@ -26,7 +26,7 @@ The user maintains this without AI help, so every change is judged on three thin
 - **Work-only content goes in `config.work.toml`** and hooks into shared files through optional includes: `~/.aliases.work`, `~/.gitconfig.work`, `~/.ssh/config.d/work`. The shared config must work on a personal Mac where none of those exist.
 - **Dotfiles are linked before tools are installed,** so a `[dotfiles]` source can't live inside a mise install directory. The buildx `post-tools` hook exists for that reason.
 - **mise can't edit a file that's also a symlinked dotfile.** That's why SSH uses `Include ~/.ssh/config.d/*`, and why `.zshrc` calls `mise activate` itself rather than using `[bootstrap.mise_shell_activate]`.
-- **Ordering in `.zshrc` matters.** `mise activate` runs before Zim's init, because Zim's fzf module checks for fzf at load. zoxide init stays last, followed only by the `z` wrapper that redefines zoxide's `z`.
+- **Ordering in `.zshrc` matters.** `mise activate` runs before Zim's init, because Zim's fzf module checks for fzf at load. zoxide init (`--hook none`) stays last, followed only by the functions that record directories and redefine `z` and `zi`.
 - **The Neovim config is a separate repo** (`aamielsan/nvim`, cloned to `~/.config/nvim`). Mason owns language servers and formatters; this repo only provides runtimes and CLIs.
 
 ## Settled decisions

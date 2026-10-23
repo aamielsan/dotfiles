@@ -43,22 +43,58 @@ alias wmc='workmux close' # close the window, keep the worktree
 alias wmx='workmux rm'    # remove worktree, window and branch
 
 # zoxide (`z <dir>`): must come after compinit, so keep it at the end.
-eval "$(zoxide init zsh)"
-# z searches the current checkout first, so worktrees of one repo don't jump
-# into each other. A match inside another checkout of the same repo goes to the
-# same folder in this one, if it exists. Otherwise zoxide's own z.
-z() {
-  local top dir other
-  if [[ $# -gt 0 && $1 != - && ! -d $1 ]] && top=$(git rev-parse --show-toplevel 2>/dev/null); then
-    dir=$(zoxide query --base-dir $top --exclude $PWD -- "$@" 2>/dev/null) ||
-      dir=$(zoxide query --exclude $PWD -- "$@" 2>/dev/null) || { __zoxide_z "$@"; return }
-    if [[ $dir != $top && $dir != $top/* ]] && other=$(git -C $dir rev-parse --show-toplevel 2>/dev/null) &&
-        [[ $dir != $other && -d $top${dir#$other} &&
-           $(git -C $dir rev-parse --path-format=absolute --git-common-dir) == $(git rev-parse --path-format=absolute --git-common-dir) ]]; then
-      dir=$top${dir#$other}
+# Worktrees of one repo share one history: folders are recorded under the main
+# checkout's path, and z/zi open them in whichever checkout you're in. Worktrees
+# are recognised from their .git file, without running git.
+eval "$(zoxide init zsh --hook none)" # _zo_add below records directories instead
+
+# reply=(checkout root, main checkout root) for $1 (default $PWD); fails outside a repo.
+# A linked worktree's .git file says "gitdir: <main>/.git/worktrees/<name>".
+_zo_checkout() {
+  local d=${1:-$PWD} gitdir
+  while [[ $d != / ]]; do
+    if [[ -f $d/.git ]]; then
+      read -r gitdir < $d/.git; gitdir=${gitdir#gitdir: }
+      [[ $gitdir == /* ]] || gitdir=$d/$gitdir # relative with worktree.useRelativePaths
+      gitdir=${gitdir:A}
+      # <main>/.git/worktrees/<name>; anything else (a submodule) is its own repo
+      [[ ${gitdir:h:t} == worktrees && ${gitdir:h:h:t} == .git ]] && reply=($d ${gitdir:h:h:h}) || reply=($d $d)
+      return 0
     fi
-    cd $dir
-  else
-    __zoxide_z "$@"
+    [[ -d $d/.git ]] && { reply=($d $d); return 0 }
+    d=${d:h}
+  done
+  return 1
+}
+# REPLY=$1, moved into the current checkout if it's in another checkout of the same repo.
+_zo_here() {
+  local reply top main
+  REPLY=$1
+  _zo_checkout && top=$reply[1] main=$reply[2] && _zo_checkout $1 && [[ $reply[2] == $main ]] &&
+    REPLY=$top${1#$reply[1]}
+}
+_zo_add() {
+  local reply dir=$PWD
+  _zo_checkout && [[ $reply[1] != $reply[2] && -d $reply[2]${PWD#$reply[1]} ]] && dir=$reply[2]${PWD#$reply[1]}
+  zoxide add -- $dir
+}
+autoload -Uz add-zsh-hook && add-zsh-hook chpwd _zo_add
+z() {
+  local dir REPLY
+  [[ $1 == -- ]] && shift
+  # A full path (what z foo<Space><Tab> inserts) opens in this checkout too
+  [[ $# -eq 1 && $1 == /* && -d $1 ]] && _zo_here $1 && [[ -d $REPLY ]] && { cd $REPLY; return }
+  if [[ $# -eq 0 || ( $# -eq 1 && ( $1 == - || $1 == [-+]<-> || -d $1 ) ) ]]; then
+    __zoxide_z "$@"; return
   fi
+  for dir in ${(f)"$(zoxide query -la -- "$@" 2>/dev/null)"}; do
+    _zo_here $dir
+    [[ $REPLY != $PWD && -d $REPLY ]] && { cd $REPLY; return }
+  done
+  print -u2 'zoxide: no match found'; return 1
+}
+zi() {
+  local dir REPLY
+  dir=$(zoxide query -i -- "$@") || return
+  _zo_here $dir; [[ -d $REPLY ]] && cd $REPLY || cd $dir
 }
