@@ -1,3 +1,5 @@
 # Machine-local mise settings (e.g. miserc.local.toml with env = ["work"])
 *.local.toml
 *.local.lock
+# The global ignore drops .claude/; the skills under home/ ship with the setup
+!home/.claude/
