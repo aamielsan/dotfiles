@@ -28,7 +28,7 @@ nmap <Leader>f <Action>(FindInPath)
 nmap <Leader>p <Action>(GotoFile)
 nmap <Leader>o <Action>(RecentFiles)
 nmap <Leader>l <Action>(ActivateProjectToolWindow)
-nmap <Leader>t <Action>(ActivateTerminalToolWindow)
+nmap <Leader>tf <Action>(ActivateTerminalToolWindow)
 
 " Format (conform.nvim's =)
 nmap = <Action>(ReformatCode)
