@@ -18,3 +18,18 @@ alias mmconf='export AWS_CONFIG_FILE=$HOME/.aws/config.mm'
 alias chanconf='export AWS_CONFIG_FILE=$HOME/.aws/config.channels'
 
 alias awsso='aws sso login --profile sit'
+
+# Open pull request <n> as a worktree on branch pr-<n>, for review; the PR's own head is kept
+# as pr/<n>. (wma --pr can't read DNB's dnb@ SSH remotes.) A bad number fails the fetch.
+wmpr() { git fetch --no-prune upstream "+pull/$1/head:refs/remotes/pr/$1" && git branch "pr-$1" "pr/$1" && workmux add "pr-$1" }
+# Inside a wmpr worktree: move pr-<n> to the PR's latest version, force-pushes included.
+# Your own commits are replayed on top (pr/<n>'s reflog finds where they start), and
+# uncommitted edits are stashed and put back.
+wmpru() {
+  local b=$(git branch --show-current) base
+  [[ $b == pr-<-> ]] || { print -u2 "wmpru: not on a pr-<n> branch"; return 1 }
+  git fetch --no-prune upstream "+pull/${b#pr-}/head:refs/remotes/pr/${b#pr-}" || return
+  base=$(git merge-base --fork-point "pr/${b#pr-}") ||
+    { print -u2 "wmpru: pr/${b#pr-} has no record of where $b started; nothing changed"; return 1 }
+  git rebase --autostash --onto "pr/${b#pr-}" $base
+}

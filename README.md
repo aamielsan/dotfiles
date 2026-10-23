@@ -93,7 +93,8 @@ includes everything in `~/.ssh/config.d/`.
   `~/workspace/dnb/` (work; uses the work git identity), one folder per repo.
   To work on several branches of one repo at once, `wma <branch>` makes a git
   worktree in `<repo>__worktrees/` and opens a tmux window in it ([workmux](https://github.com/raine/workmux)).
-  `wml` lists them, `wmx <branch>` removes one (worktree, window and branch).
+  `wml` lists them, `wmx <branch>` removes one (worktree, window and branch);
+  at work, `wmpr <n>` opens pull request `<n>` for review and `wmpru` updates it.
   Closing the window keeps the worktree; `wmo <branch>` reopens it. All
   checkouts of a repo share one zoxide history, and `z`/`zi` open folders in
   the checkout you're in, even a new worktree; switch checkouts with tmux.
