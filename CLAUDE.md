@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-This repo is the user's global mise config (`~/.config/mise`), applied with `mise bootstrap`. Read README.md before changing structure: it is the source of truth for the layout, modules, workflows, and the files other tools own.
+This repo is the user's global mise config (`~/.config/mise`), applied with `mise bootstrap`. The config (`config.toml`, `config.work.toml`, `home/`) is the source of truth; README.md describes it (layout, modules, workflows, the files other tools own). Read README.md before changing structure, and update it in the same change whenever the config changes what it describes.
 
 ## Principles
 
@@ -23,11 +23,11 @@ The user maintains this without AI help, so every change is judged on three thin
 - **Validate in a sandbox, never on the live machine.** Clone the repo to `/tmp/sbx/home/.config/mise`, `cd /tmp/sbx/home`, and run `mise [-E work] bootstrap --dry-run` with `HOME=/tmp/sbx/home` and `MISE_CONFIG_DIR`, `MISE_DATA_DIR`, `MISE_STATE_DIR`, `MISE_CACHE_DIR` under `/tmp/sbx`. Run it from inside the sandbox: mise also reads `.config/mise` in every parent of the working directory, so a run under `~` picks up the live config. Dry-run both with and without `-E work`.
 - **Applying is mostly the user's call.** `mise dotfiles apply` (preview with `-n`) links dotfiles only and is fine after a clean dry-run; a full `mise bootstrap` is the user's to run. Cask installs that ship a `.pkg` need sudo, which the `!` prefix can't provide, so the user runs those in a terminal.
 - **Lockfiles are generated.** Regenerate them with `mise lock --global` and `mise -E work lock --global`; existing lockfiles keep their `macos-arm64`-only platform list.
-- **Work-only content goes in `config.work.toml`** and hooks into shared files through optional includes: `~/.aliases.work`, `~/.gitconfig.work`, `~/.ssh/config.d/work`. The shared config must work on a personal Mac where none of those exist.
+- **Work-only content goes in `config.work.toml`** and reaches shared files only through the optional includes listed in README's "Modules". The shared config must work on a personal Mac where none of those exist.
 - **Dotfiles are linked before tools are installed,** so a `[dotfiles]` source can't live inside a mise install directory. The buildx `post-tools` hook exists for that reason.
 - **mise can't edit a file that's also a symlinked dotfile.** That's why SSH uses `Include ~/.ssh/config.d/*`, and why `.zshrc` calls `mise activate` itself rather than using `[bootstrap.mise_shell_activate]`.
 - **Ordering in `.zshrc` matters.** `mise activate` runs before Zim's init, because Zim's fzf module checks for fzf at load. zoxide init (`--hook none`) stays last, followed only by the functions that record directories and redefine `z` and `zi`.
-- **The Neovim config is a separate repo** (`aamielsan/nvim`, cloned to `~/.config/nvim`). Mason owns language servers and formatters; this repo only provides runtimes and CLIs.
+- **The Neovim config is a separate repo** (README's "Editors and AI"). Mason owns language servers and formatters; this repo only provides runtimes and CLIs.
 
 ## Settled decisions
 
@@ -37,8 +37,8 @@ Each was measured on this machine. Re-open one only with new evidence.
 - **`core.fsmonitor` stays off.** Its daemon round trip made every prompt slower, even in the 27k-file `server-side` repo. For a slow prompt in one big repo, set `git config zim.hide-dirty true` in that repo.
 - **mise:** shims in `.zprofile`, `mise activate` in `.zshrc`. Shims alone add 9–15 ms to every command and drop `JAVA_HOME`; `hook_env.chpwd_only` changed nothing.
 - **Prompt** is Zim's asciiship. Starship took ~540 ms in `server-side`.
-- **tmux** stays, because sessions must outlive the terminal. Prefix `C-a`. Panes are login shells; non-login panes measured no gain.
-- **Claude Code** is installed by mise, since raicode can only install it with Homebrew.
+- **tmux** stays, because sessions must outlive the terminal. Panes are login shells; non-login panes measured no gain.
+- **Claude Code** stays installed by mise (README's "Editors and AI" says why).
 
 ## Testing gotchas
 
