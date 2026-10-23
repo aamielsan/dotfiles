@@ -45,11 +45,18 @@ alias wmx='workmux rm'    # remove worktree, window and branch
 # zoxide (`z <dir>`): must come after compinit, so keep it at the end.
 eval "$(zoxide init zsh)"
 # z searches the current checkout first, so worktrees of one repo don't jump
-# into each other. Falls back to zoxide's own z.
+# into each other. A match inside another checkout of the same repo goes to the
+# same folder in this one, if it exists. Otherwise zoxide's own z.
 z() {
-  local top dir
-  if [[ $# -gt 0 && $1 != - && ! -d $1 ]] && top=$(git rev-parse --show-toplevel 2>/dev/null) &&
-      dir=$(zoxide query --base-dir $top --exclude $PWD -- "$@" 2>/dev/null); then
+  local top dir other
+  if [[ $# -gt 0 && $1 != - && ! -d $1 ]] && top=$(git rev-parse --show-toplevel 2>/dev/null); then
+    dir=$(zoxide query --base-dir $top --exclude $PWD -- "$@" 2>/dev/null) ||
+      dir=$(zoxide query --exclude $PWD -- "$@" 2>/dev/null) || { __zoxide_z "$@"; return }
+    if [[ $dir != $top && $dir != $top/* ]] && other=$(git -C $dir rev-parse --show-toplevel 2>/dev/null) &&
+        [[ $dir != $other && -d $top${dir#$other} &&
+           $(git -C $dir rev-parse --path-format=absolute --git-common-dir) == $(git rev-parse --path-format=absolute --git-common-dir) ]]; then
+      dir=$top${dir#$other}
+    fi
     cd $dir
   else
     __zoxide_z "$@"
