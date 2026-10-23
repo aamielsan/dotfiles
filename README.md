@@ -46,6 +46,8 @@ disagree, the config wins and this file gets fixed.
 - SSH keys: put `github-personal` (and `github-dnb` and `gitlab-dnb` at work) in
   `~/.ssh/` and add each `.pub` to its account. Check with `ssh -T git@github.com` and
   `ssh -T dnb@dnb.ghe.com` (the DNB host's SSH user is `dnb`, not `git`).
+- Claude Code status in tmux: `workmux setup --hooks` adds the hooks that show
+  🤖/💬/✅ next to a window's name.
 - IntelliJ: turn on Settings → Backup and Sync with your JetBrains account; it
   restores settings and plugins (IdeaVim) on a new machine. Point the project
   SDK at `~/.local/share/mise/installs/java/corretto-25`.
@@ -110,7 +112,10 @@ The tmux prefix is `C-a`:
 | `C-a C-q` | Close every other session |
 
 The status bar sits at the top and highlights the current window; the session
-name flips colour after you press the prefix. The mouse works too.
+name flips colour after you press the prefix. A window where Claude Code runs
+(on its own or inside Neovim) shows its state after the name: 🤖 working, 💬
+waiting for you, ✅ done; the last two clear when you switch to it. The mouse
+works too.
 `Ctrl-Tab` and `Ctrl-Shift-Tab` are Ghostty keybinds that send `C-a n` and
 `C-a p`, so change them too if you ever change the prefix.
 
@@ -274,6 +279,7 @@ These live outside the repo on purpose. Each tool creates and owns its own:
 | `~/Library/Application Support/zoxide/` | zoxide: the folder history (starts empty on a new machine) |
 | `~/.config/gh/hosts.yml` (token in the Keychain) | GitHub CLI: logins from `gh auth login` |
 | `~/.local/state/workmux/` | workmux: log and state |
+| The `Notification`, `PostToolUse`, `SessionStart`, `Stop` and `UserPromptSubmit` hooks in `~/.claude/settings.json` | `workmux setup --hooks`: Claude Code's state shown in tmux window names |
 | `~/.local/share/nvim/` | Neovim: plugins, Mason servers, Tree-sitter parsers |
 | `~/.cache/nvim/kotlin-lsp/` | Kotlin LSP: about 2 GB of indexes per Gradle build opened, in each checkout, under `workspaces/`, plus logs under `system/log/`. Nothing removes them; delete `workspaces/` now and then (safe) |
 | `~/.local/share/mise/`, `~/.local/state/mise/` | mise: installed tools and bootstrap state |
