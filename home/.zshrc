@@ -26,14 +26,10 @@ fi
 source $ZIM_HOME/init.zsh
 unalias gh # Zim's git module maps gh to `git help`; keep the GitHub CLI
 
-# Up/down (k/j in normal mode) search history for what's typed so far.
-# Bound here as well as by the module, so they work before zle-line-init too.
-zmodload -F zsh/terminfo +p:terminfo
-for key ('^[[A' '^P' ${terminfo[kcuu1]}) bindkey $key history-substring-search-up
-for key ('^[[B' '^N' ${terminfo[kcud1]}) bindkey $key history-substring-search-down
+# k/j in normal mode search history for what's typed so far (Zim's input
+# module already binds Up/Down and Ctrl-P/Ctrl-N to the same search).
 bindkey -M vicmd k history-substring-search-up
 bindkey -M vicmd j history-substring-search-down
-unset key
 
 # Work aliases. ~/.aliases.work only exists on machines with the mise `work` env.
 [[ -f ~/.aliases.work ]] && source ~/.aliases.work
