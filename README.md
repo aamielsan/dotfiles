@@ -83,7 +83,8 @@ includes everything in `~/.ssh/config.d/`.
 - **Terminal:** Ghostty opens straight into the tmux session `main`. tmux
   prefix is `C-a`: `\` and `-` split, `hjkl` move, `v` opens the pane's
   scrollback in Neovim; `y` in copy mode copies to the system clipboard. The
-  session name in the status bar flips colour while the prefix is held.
+  status bar sits at the top and highlights the current window; the session
+  name flips colour while the prefix is held.
 - **Keyboard:** Caps Lock is Ctrl when held and Esc when tapped
   (Karabiner-Elements; the rule is in `home/.config/karabiner/`). Vim keys
   everywhere: zsh, tmux copy mode, Neovim, and IntelliJ through IdeaVim, whose
