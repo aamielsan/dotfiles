@@ -42,7 +42,7 @@ docker-compose = "latest"
 "brew-cask:ghostty" = { adopt = true }
 "brew-cask:google-chrome" = { adopt = true }
 "brew-cask:intellij-idea" = { adopt = true }
-"brew-cask:karabiner-elements" = { adopt = true } # Caps Lock: hold for Ctrl, tap for Esc
+"brew-cask:karabiner-elements" = { adopt = true } # Caps Lock and Escape: hold for Ctrl, tap for Esc
 "brew-cask:slack" = { adopt = true }
 "brew-cask:tldraw" = { adopt = true } # tldraw offline: local whiteboard agents can edit
 
@@ -66,6 +66,7 @@ docker-compose = "latest"
 "~/.ideavimrc" = "home/.ideavimrc"
 "~/.config/ghostty/config.ghostty" = "home/.config/ghostty/config.ghostty"
 "~/.config/karabiner/assets/complex_modifications/caps-lock.json" = "home/.config/karabiner/assets/complex_modifications/caps-lock.json"
+"~/.config/karabiner/assets/complex_modifications/escape.json" = "home/.config/karabiner/assets/complex_modifications/escape.json"
 "~/.ssh/config" = "home/.ssh/config"
 
 # Docker finds CLI plugins in ~/.docker/cli-plugins. A hook rather than a

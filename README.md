@@ -37,12 +37,12 @@ disagree, the config wins and this file gets fixed.
 
 ## Manual steps
 
-- Caps Lock (hold for Ctrl, tap for Esc): open Karabiner-Elements, then in
-  System Settings turn on its driver (General → Login Items & Extensions →
-  Driver Extensions) and allow Karabiner-Core-Service under Privacy & Security →
-  Input Monitoring. Until the driver is on, Caps Lock stays Caps Lock. Then in
-  Karabiner: Complex Modifications → Add predefined rule → enable "Change
-  caps_lock to control if pressed with other keys, to escape if pressed alone".
+- Caps Lock and Escape (hold for Ctrl, tap for Esc): open Karabiner-Elements,
+  then in System Settings turn on its driver (General → Login Items &
+  Extensions → Driver Extensions) and allow Karabiner-Core-Service under
+  Privacy & Security → Input Monitoring. Until the driver is on, both keys work
+  as normal. Then in Karabiner: Complex Modifications → Add predefined rule →
+  enable "Change caps_lock to control…" and "Change escape to control…".
 - SSH keys: put `github-personal` (and `github-dnb` and `gitlab-dnb` at work) in
   `~/.ssh/` and add each `.pub` to its account. Check with `ssh -T git@github.com` and
   `ssh -T dnb@dnb.ghe.com` (the DNB host's SSH user is `dnb`, not `git`).
@@ -184,8 +184,8 @@ windows. Each worktree gets its own Kotlin LSP indexes (see
 
 ### Keyboard
 
-Caps Lock is Ctrl when held and Esc when tapped (Karabiner-Elements; the rule is
-in `home/.config/karabiner/`). Vim keys everywhere: zsh, tmux copy mode, Neovim,
+Caps Lock and Escape are Ctrl when held and Esc when tapped (Karabiner-Elements;
+the rules are in `home/.config/karabiner/`). Vim keys everywhere: zsh, tmux copy mode, Neovim,
 and IntelliJ through IdeaVim.
 
 ### Containers
