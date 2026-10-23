@@ -46,6 +46,9 @@ disagree, the config wins and this file gets fixed.
 - SSH keys: put `github-personal` (and `github-dnb` and `gitlab-dnb` at work) in
   `~/.ssh/` and add each `.pub` to its account. Check with `ssh -T git@github.com` and
   `ssh -T dnb@dnb.ghe.com` (the DNB host's SSH user is `dnb`, not `git`).
+- Claude Code: `/config` → set notifications to the terminal bell
+  (`"preferredNotifChannel": "terminal_bell"` in `~/.claude/settings.json`), so a
+  tmux window whose session is waiting for you turns yellow.
 - IntelliJ: turn on Settings → Backup and Sync with your JetBrains account; it
   restores settings and plugins (IdeaVim) on a new machine. Point the project
   SDK at `~/.local/share/mise/installs/java/corretto-25`.
@@ -110,7 +113,9 @@ The tmux prefix is `C-a`:
 | `C-a C-q` | Close every other session |
 
 The status bar sits at the top and highlights the current window; the session
-name flips colour after you press the prefix. The mouse works too.
+name flips colour after you press the prefix, and a window turns yellow when
+something in it rings the bell, such as Claude Code finishing or waiting for
+permission. The mouse works too.
 `Ctrl-Tab` and `Ctrl-Shift-Tab` are Ghostty keybinds that send `C-a n` and
 `C-a p`, so change them too if you ever change the prefix.
 
