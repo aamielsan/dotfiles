@@ -35,7 +35,7 @@ Each was measured on this machine. Re-open one only with new evidence.
 
 - **git** runs through Apple's `/usr/bin/git` wrapper (~4 ms extra per call; a prompt in a repo makes 7 calls, so ~25 of its ~41 ms). The Command Line Tools `bin` directory stays off `PATH`: it shadows mise's `python3` and puts a `clang` that can't find the SDK headers ahead of Apple's shims. A lone `git` symlink to the Command Line Tools binary doesn't work either: git then looks for its helpers in Xcode, so submodules, templates and the Keychain credential helper break.
 - **`core.fsmonitor` stays off.** Its daemon round trip made every prompt slower, even in the 27k-file `server-side` repo. For a slow prompt in one big repo, set `git config zim.hide-dirty true` in that repo.
-- **mise:** shims in `.zprofile`, `mise activate` in `.zshrc`. Shims alone add 9–15 ms to every command and drop `JAVA_HOME`; `hook_env.chpwd_only` changed nothing.
+- **mise:** shims in `.zprofile` for non-interactive login shells, `mise activate` in `.zshrc`. Shims alone add 9–15 ms to every command and drop `JAVA_HOME`; `hook_env.chpwd_only` changed nothing. Skipping the shims in interactive shells saves ~9 ms per shell with identical state; a plain PATH line instead of the eval leaves an extra PATH entry and ignores `MISE_DATA_DIR`.
 - **Prompt** is Zim's asciiship. Starship took ~540 ms in `server-side`.
 - **tmux** stays, because sessions must outlive the terminal. Panes are login shells; non-login panes measured no gain.
 - **Claude Code** stays installed by mise (README's "Editors and AI" says why).

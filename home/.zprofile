@@ -6,6 +6,6 @@ export LANG='en_US.UTF-8' # tmux needs a UTF-8 locale
 typeset -U path # tmux panes are nested login shells; keep PATH free of duplicates
 path=($HOME/.local/bin $path) # mise
 
-# mise shims for non-interactive login shells, e.g. Ghostty's tmux command.
-# Interactive shells switch to full `mise activate` in .zshrc.
-eval "$(mise activate zsh --shims)"
+# mise shims for non-interactive login shells, e.g. Ghostty's tmux command and the
+# fork sync. Interactive shells get full `mise activate` in .zshrc instead.
+[[ -o interactive ]] || eval "$(mise activate zsh --shims)"
