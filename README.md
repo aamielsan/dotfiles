@@ -221,8 +221,9 @@ plugins: the bootstrap hook links them into `~/.docker/cli-plugins/`.
 
 - the AWS CLI and CDK, and `~/workspace/dnb/`;
 - `home/.aliases.work`: AWS account sets (`bankingconf`, `nmbconf`, … point the
-  shell's AWS CLI at `~/.aws/config.<set>`; then `awsso` signs in with that
-  set's `sit` profile), `wmpr`/`wmpru`, and Go helpers (`goreport`, `buildgo`);
+  shell's AWS CLI at `~/.aws/config.<set>`, and the prompt shows the set on the
+  right, e.g. `aws:banking`; then `awsso` signs in with that set's `sit`
+  profile), `wmpr`/`wmpru`, and Go helpers (`goreport`, `buildgo`);
 - the work git identity and SSH hosts;
 - a LaunchAgent that keeps your fork of the server-side monorepo in sync with
   upstream: at login and hourly, `gh repo sync` asks GitHub to bring the fork's
