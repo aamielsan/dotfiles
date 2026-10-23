@@ -186,8 +186,9 @@ windows. Each worktree gets its own Kotlin LSP indexes (see
   have an IntelliJ equivalent.
 - **Claude Code:** installed by mise. At work, launch it through `raicode`,
   DNB's wrapper that signs in to the company AI gateway (it can only install
-  Claude Code with Homebrew, hence mise). `/marie-kondo` (a skill in
-  `home/.claude/skills/`) runs an evidence-based declutter pass over this setup.
+  Claude Code with Homebrew, hence mise). Two skills in `home/.claude/skills/`
+  look after this setup: `/marie-kondo` declutters it, and `/glow-up` finds and
+  tries a few improvements your own usage points to; both work from evidence.
 
 ### Keyboard
 

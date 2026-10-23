@@ -69,6 +69,7 @@ docker-compose = "latest"
 "~/.config/karabiner/assets/complex_modifications/escape.json" = "home/.config/karabiner/assets/complex_modifications/escape.json"
 "~/.ssh/config" = "home/.ssh/config"
 "~/.claude/skills/marie-kondo" = "home/.claude/skills/marie-kondo"
+"~/.claude/skills/glow-up" = "home/.claude/skills/glow-up"
 
 # Docker finds CLI plugins in ~/.docker/cli-plugins. A hook rather than a
 # [dotfiles] entry because dotfiles are linked before tools are installed.
