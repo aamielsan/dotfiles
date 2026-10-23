@@ -12,9 +12,10 @@ aws-cli = "latest"
 "~/.gitconfig.work" = "home/.gitconfig.work" # included by .gitconfig for ~/workspace/dnb/
 "~/.ssh/config.d/work" = "home/.ssh/config.d/work"
 
-# Keep my server-side fork's master equal to upstream's: at login and hourly, gh asks
-# GitHub to fast-forward it. It never forces; if the fork's master diverges, the run
-# fails and changes nothing. Check: launchctl print gui/$(id -u)/dev.mise.sync-server-side-fork
+# Keep my server-side fork's master in sync with upstream's: at login and hourly, gh asks
+# GitHub to sync it. That fast-forwards while nothing is committed to the fork's master;
+# otherwise GitHub merges upstream in, and a conflict fails the run without changing
+# anything. Check: launchctl print gui/$(id -u)/dev.mise.sync-server-side-fork
 [bootstrap.macos.launchd.agents.sync-server-side-fork]
 program = "/bin/zsh"
 args = ["-lc", 'gh repo sync "$(gh api user --jq .login)/server-side"'] # login shell: .zprofile puts mise's gh on PATH
