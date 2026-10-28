@@ -133,7 +133,7 @@ branches of one repo at once, use git worktrees through
 | `wma <new-branch> --base upstream/master` | Same for a new branch, starting from upstream |
 | `wml` | List worktrees |
 | `wmc <name>` / `wmo <name>` | Close the window, keeping the worktree / reopen it |
-| `wmx <name>` | Remove worktree, window and branch; refuses with uncommitted changes, asks before deleting an unmerged branch |
+| `wmrm <name>` | Remove worktree, window and branch; refuses with uncommitted changes, asks before deleting an unmerged branch |
 | `wmpr <n>` (work) | Open pull request `<n>` for review, on branch `pr-<n>` |
 | `wmpru` (work) | Inside a `wmpr` worktree: catch up with the PR, force-pushes included; your own commits and edits are kept |
 

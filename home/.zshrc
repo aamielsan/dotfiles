@@ -40,7 +40,7 @@ alias wma='workmux add'   # wma <branch> [--base upstream/master]
 alias wml='workmux ls'
 alias wmo='workmux open'  # reopen a closed window
 alias wmc='workmux close' # close the window, keep the worktree
-alias wmx='workmux rm'    # remove worktree, window and branch
+alias wmrm='workmux rm'   # remove worktree, window and branch
 
 # zoxide (`z <dir>`): must come after compinit, so keep it at the end.
 # Worktrees of one repo share one history: folders are recorded under the main
