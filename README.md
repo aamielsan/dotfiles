@@ -226,7 +226,8 @@ plugins: the bootstrap hook links them into `~/.docker/cli-plugins/`.
 - `home/.aliases.work`: AWS account sets (`bankingconf`, `nmbconf`, … point the
   shell's AWS CLI at `~/.aws/config.<set>`, and the prompt shows the set on the
   right, e.g. `aws:banking`; then `awsso` signs in with that set's `sit`
-  profile), `wmpr`/`wmpru`, and Go helpers (`goreport`, `buildgo`);
+  profile), `gru` (fetch upstream and rebase onto its `master`; flags such as
+  `-i` go to the rebase), `wmpr`/`wmpru`, and Go helpers (`goreport`, `buildgo`);
 - the work git identity and SSH hosts;
 - a LaunchAgent that keeps your fork of the server-side monorepo in sync with
   upstream: at login and hourly, `gh repo sync` asks GitHub to bring the fork's
@@ -235,9 +236,9 @@ plugins: the bootstrap hook links them into `~/.docker/cli-plugins/`.
   instead, and a conflict makes the run fail. Check it with
   `launchctl print gui/$(id -u)/dev.mise.sync-server-side-fork`.
 
-`wmpr` expects the repo's `upstream` remote to be the main repository (in
-server-side, `pm-server-side/server-side`), and the fork sync expects your fork
-to be called `server-side`.
+`gru` and `wmpr` expect the repo's `upstream` remote to be the main repository
+(in server-side, `pm-server-side/server-side`), and the fork sync expects your
+fork to be called `server-side`.
 
 ## Layout
 

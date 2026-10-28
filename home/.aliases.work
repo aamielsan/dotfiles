@@ -21,6 +21,9 @@ alias awsso='aws sso login --profile sit'
 # Show the active account set on the right of the prompt (aws:banking), nothing before one is picked
 RPS1='${AWS_CONFIG_FILE:+%F{yellow\}aws:${AWS_CONFIG_FILE:e}%f}'
 
+# Catch up with upstream: fetch it and rebase onto its master. Flags go to the rebase (gru -i).
+alias gru='git fetch upstream && git rebase upstream/master'
+
 # Open pull request <n> as a worktree on branch pr-<n>, for review; the PR's own head is kept
 # as pr/<n>. (wma --pr can't read DNB's dnb@ SSH remotes.) A bad number fails the fetch.
 wmpr() { git fetch --no-prune upstream "+pull/$1/head:refs/remotes/pr/$1" && git branch "pr-$1" "pr/$1" && workmux add "pr-$1" }
