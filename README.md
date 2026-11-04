@@ -71,6 +71,7 @@ disagree, the config wins and this file gets fixed.
 | Add a dotfile | put it in `home/`, add a line under `[dotfiles]`, `mise dotfiles apply` (links dotfiles only) |
 | Edit a dotfile | edit it in place (`~/.zshrc` etc. are symlinks into `home/`) |
 | Add a GUI app | add `"brew-cask:<name>" = { adopt = true }` under `[bootstrap.packages]` ([find names](https://formulae.brew.sh/cask/)), `mise bootstrap`, commit |
+| Read papers and posts | `feed` (see [Reading](#reading)) |
 
 GUI apps update themselves; mise only installs them.
 
@@ -197,6 +198,32 @@ windows. Each worktree gets its own Kotlin LSP indexes (see
   look after this setup: `/marie-kondo` declutters it, and `/glow-up` finds and
   tries a few improvements your own usage points to; both work from evidence.
 
+### Reading
+
+`feed` (`home/.local/bin/feed`) is a scrolling feed of papers and posts, each
+with a one- or two-sentence TL;DR: arXiv cs.SE, Hugging Face's daily papers,
+Anthropic, OpenAI, Google Research, the Hugging Face blog, Simon Willison,
+Lilian Weng, Martin Fowler, Julia Evans and Hacker News (the list is at the top
+of the script). Sources take turns, and cards you've scrolled past sink to the
+bottom, dimmed.
+
+| Key | Does |
+|---|---|
+| `j` `k`, `Ctrl-D` `Ctrl-U`, `g` `G` | Scroll; the right pane shows the abstract |
+| `Enter` | Read the whole thing in Neovim's `:Reader`; `q` comes back |
+| `o` | Open it in the browser |
+| `/` | Filter; Enter applies it, Esc clears it |
+| `Esc` `Esc` | Quit |
+
+`:Reader` is in the Neovim config: a centred page with the Markdown rendered,
+where `m` changes the margins and `#` toggles line numbers.
+
+A LaunchAgent runs `feed refresh` at login and hourly: it keeps the past week's
+items and has Claude Haiku write TL;DRs for new ones, a few cents a day (Hugging
+Face's papers bring their own). Check it with
+`launchctl print gui/$(id -u)/dev.mise.feed-refresh`. The script runs with uv,
+which installs its Python dependencies on first use.
+
 ### Keyboard
 
 Caps Lock and Escape are Ctrl when held and Esc when tapped (Karabiner-Elements;
@@ -238,6 +265,8 @@ plugin ignores Docker contexts and otherwise fails to connect.
   profile), `gru` (fetch upstream and rebase onto its `master`; flags such as
   `-i` go to the rebase), `wmpr`/`wmpru`, and Go helpers (`goreport`, `buildgo`);
 - the work git identity and SSH hosts;
+- `FEED_CLAUDE=raicode`, so `feed`'s TL;DRs go through DNB's AI gateway
+  (openai.com is blocked by the company proxy, so that feed stays empty);
 - a LaunchAgent that keeps your fork of the server-side monorepo in sync with
   upstream: at login and hourly, `gh repo sync` asks GitHub to bring the fork's
   `master` up to upstream's. That's a fast-forward as long as nothing is
@@ -293,6 +322,7 @@ These live outside the repo on purpose. Each tool creates and owns its own:
 | `~/.local/state/workmux/` | workmux: log and state |
 | The `Notification`, `PostToolUse`, `SessionStart`, `Stop` and `UserPromptSubmit` hooks in `~/.claude/settings.json` | `workmux setup --hooks`: Claude Code's state shown in tmux window names |
 | `~/.local/share/nvim/` | Neovim: plugins, Mason servers, Tree-sitter parsers |
+| `~/.cache/feed/` | feed: the past week's items with their TL;DRs, the cards you've seen, the article being read |
 | `~/.cache/nvim/kotlin-lsp/` | Kotlin LSP: about 2 GB of indexes per Gradle build opened, in each checkout, under `workspaces/`, plus logs under `system/log/`. Nothing removes them; delete `workspaces/` now and then (safe) |
 | `~/.local/share/mise/`, `~/.local/state/mise/` | mise: installed tools and bootstrap state |
 | `~/Library/LaunchAgents/dev.mise.*.plist` | mise bootstrap, from the LaunchAgents in the config |

@@ -71,6 +71,7 @@ docker-compose = "latest"
 "~/.ssh/config" = "home/.ssh/config"
 "~/.claude/skills/marie-kondo" = "home/.claude/skills/marie-kondo"
 "~/.claude/skills/glow-up" = "home/.claude/skills/glow-up"
+"~/.local/bin/feed" = "home/.local/bin/feed" # reading feed; see README's Reading
 
 # Docker finds CLI plugins in ~/.docker/cli-plugins. A hook rather than a
 # [dotfiles] entry because dotfiles are linked before tools are installed.
@@ -92,3 +93,11 @@ tap_to_click = true
 "com.apple.screencapture" = { type = "png", location = "~/Desktop/Screenshots" }
 "com.apple.AppleMultitouchTrackpad" = { TrackpadRightClick = true }
 "com.apple.driver.AppleBluetoothMultitouch.trackpad" = { TrackpadRightClick = true }
+
+# New items and TL;DRs for `feed`, at login and hourly, so the feed opens on fresh cards.
+# Check: launchctl print gui/$(id -u)/dev.mise.feed-refresh
+[bootstrap.macos.launchd.agents.feed-refresh]
+program = "/bin/zsh"
+args = ["-lc", "mise exec -- feed refresh"] # login shell: .zprofile puts mise on PATH; mise exec adds [env]
+start_interval = 3600
+run_at_load = true

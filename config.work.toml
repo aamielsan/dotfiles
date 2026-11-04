@@ -4,6 +4,9 @@
 aws-cli = "latest"
 "npm:aws-cdk" = "latest"
 
+[env]
+FEED_CLAUDE = "raicode" # feed's TL;DRs go through DNB's AI gateway
+
 [bootstrap.directories]
 "~/workspace/dnb" = {} # repos here use the work git identity
 

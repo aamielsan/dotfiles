@@ -1,0 +1,187 @@
+#!/usr/bin/env -S uv run --quiet --script
+# /// script
+# requires-python = ">=3.10"
+# dependencies = ["feedparser", "trafilatura", "truststore"]
+# ///
+"""A scrolling feed of papers and posts, each with a TL;DR written by Claude.
+
+feed            scroll with vim keys: j/k, Enter reads, o opens the browser, / filters, Esc Esc quits
+feed refresh    fetch the last week's items and write TL;DRs for new ones
+feed read URL   read any page or paper as Markdown in Neovim
+
+Needs macOS, uv, fzf 0.68+, Neovim and Claude Code (set FEED_CLAUDE to run it through a wrapper).
+With render-markdown.nvim installed, Neovim shows the article rendered.
+"""
+import calendar, html, json, os, re, shlex, shutil, socket, subprocess, sys, time, urllib.request
+from concurrent.futures import ThreadPoolExecutor
+from itertools import zip_longest
+from pathlib import Path
+
+FEEDS = {
+    "arXiv cs.SE": "https://rss.arxiv.org/rss/cs.SE",
+    # Anthropic has no feed; these are generated from its site (github.com/Olshansk/rss-feeds)
+    "Anthropic Research": "https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_anthropic_research.xml",
+    "Anthropic Engineering": "https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_anthropic_engineering.xml",
+    "OpenAI": "https://openai.com/news/rss.xml",
+    "Google Research": "https://research.google/blog/rss/",
+    "Hugging Face": "https://huggingface.co/blog/feed.xml",
+    "Simon Willison": "https://simonwillison.net/atom/entries/",
+    "Lilian Weng": "https://lilianweng.github.io/index.xml",
+    "Martin Fowler": "https://martinfowler.com/feed.atom",
+    "Julia Evans": "https://jvns.ca/atom.xml",
+    "Hacker News": "https://hnrss.org/best",
+}
+DAYS = 7
+CACHE = Path(os.environ.get("XDG_CACHE_HOME", Path.home() / ".cache")) / "feed"
+ITEMS, SEEN, ARTICLE = CACHE / "items.json", CACHE / "seen", CACHE / "article.md"
+CLAUDE = os.environ.get("FEED_CLAUDE", "claude")
+PROMPT = """Write a TL;DR for each item: one or two sentences, at most 35 words, saying what is
+new or why it matters. Plain and concrete, no hype, don't restate the title."""
+SCHEMA = json.dumps({"type": "object", "required": ["tldrs"], "properties": {"tldrs": {"type": "array", "items": {
+    "type": "object", "required": ["i", "tldr"], "properties": {"i": {"type": "integer"}, "tldr": {"type": "string"}}}}}})
+
+
+def text(s):  # HTML to plain text, at most 2000 characters
+    return re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", s or ""))).strip()[:2000]
+
+
+def from_feed(name, url):
+    import feedparser
+    feed = feedparser.parse(url, agent="Mozilla/5.0")
+    if not feed.entries:  # feedparser doesn't raise on network or HTTP errors
+        raise RuntimeError(feed.get("bozo_exception") or f"HTTP {feed.get('status')}")
+    for e in feed.entries:
+        summary = text(e.get("summary"))  # feedparser falls back to the full content
+        if "Announce Type: replace" in summary:  # arXiv: a new version of an old paper
+            continue
+        if summary.startswith("Article URL:"):  # Hacker News: only links, so the page gets read instead
+            summary = ""
+        date = e.get("published_parsed") or e.get("updated_parsed")
+        yield {"link": e.link, "title": text(e.title), "source": name,
+               "date": calendar.timegm(date) if date else time.time(),
+               "summary": re.sub(r"^arXiv:\S+ Announce Type: \S+ Abstract: ", "", summary)}
+
+
+def hf_papers():  # Hugging Face's daily papers: upvoted, and they come with a TL;DR
+    with urllib.request.urlopen("https://huggingface.co/api/daily_papers") as r:
+        for p in json.load(r):
+            yield {"link": f"https://arxiv.org/abs/{p['paper']['id']}", "title": text(p["title"]),
+                   "source": "HF Papers", "votes": p["paper"]["upvotes"], "summary": text(p["paper"]["summary"]),
+                   "date": calendar.timegm(time.strptime(p["publishedAt"][:19], "%Y-%m-%dT%H:%M:%S")),
+                   "tldr": p["paper"].get("ai_summary")}
+
+
+def fetch(name):
+    try:
+        return list(hf_papers() if name == "HF Papers" else from_feed(name, FEEDS[name]))
+    except Exception as e:  # a feed that's down or blocked
+        print(f"skipped {name}: {e}", file=sys.stderr)
+        return []
+
+
+def page_text(item):  # no summary in the feed (Hacker News, Hugging Face): read the page instead
+    import trafilatura
+    item["summary"] = text(trafilatura.extract(trafilatura.fetch_url(item["link"]) or "")) or item["summary"]
+
+
+def tldrs(batch):
+    items = "\n\n".join(f"[{n}] {i['title']}\n{i['summary']}" for n, i in enumerate(batch))
+    out = subprocess.run([CLAUDE, "-p", "--model", "haiku", "--system-prompt", PROMPT, "--tools", "",
+                          "--setting-sources", "project", "--strict-mcp-config", "--no-session-persistence",
+                          "--output-format", "json", "--json-schema", SCHEMA],
+                         input=items, capture_output=True, text=True, cwd=CACHE)  # cwd: no project settings
+    try:
+        for t in json.loads(out.stdout)["structured_output"]["tldrs"]:
+            batch[t["i"]]["tldr"] = t["tldr"]
+    except (ValueError, KeyError, IndexError, TypeError):
+        print(f"no TL;DRs for {len(batch)} items: {(out.stdout + out.stderr)[-300:]}", file=sys.stderr)
+
+
+def refresh():
+    if not shutil.which(CLAUDE):
+        sys.exit(f"{CLAUDE} not found: install Claude Code, or set FEED_CLAUDE")
+    socket.setdefaulttimeout(30)  # feedparser and urllib set none, so a stalled server would hang
+    items = json.loads(ITEMS.read_text()) if ITEMS.exists() else {}
+    with ThreadPoolExecutor(8) as pool:
+        for source in pool.map(fetch, ["HF Papers", *FEEDS]):
+            for i in source:
+                items.setdefault(i["link"], i)
+        cutoff = time.time() - DAYS * 86400
+        items = {k: i for k, i in items.items() if i["date"] > cutoff}
+        new = [i for i in items.values() if not i.get("tldr")]
+        list(pool.map(page_text, [i for i in new if len(i["summary"]) < 200]))
+        new = [i for i in new if i["summary"]]  # nothing to go on: try again next time
+        list(pool.map(tldrs, [new[n:n + 25] for n in range(0, len(new), 25)]))
+    ITEMS.write_text(json.dumps(items))
+    if SEEN.exists():  # forget expired items
+        SEEN.write_text("".join(f"{link}\n" for link in set(SEEN.read_text().split()) & items.keys()))
+    print(f"{len(items)} items, {sum(bool(i.get('tldr')) for i in items.values())} with a TL;DR")
+
+
+def age(t):
+    s = time.time() - t
+    return f"{s // 3600:.0f}h" if s < 86400 else f"{s // 86400:.0f}d"
+
+
+def scroll():
+    if not ITEMS.exists():
+        sys.exit("Nothing to show yet: run feed refresh")
+    items = json.loads(ITEMS.read_text())
+    seen = set(SEEN.read_text().split()) if SEEN.exists() else set()
+    sources = {}  # unseen items per source, best first
+    for i in sorted(items.values(), key=lambda i: (-i.get("votes", 0), -i["date"])):
+        if i["link"] not in seen:
+            sources.setdefault(i["source"], []).append(i)
+    unseen = [i for turn in zip_longest(*sources.values()) for i in turn if i]  # sources take turns
+    cards = []
+    for i in unseen + sorted((i for i in items.values() if i["link"] in seen), key=lambda i: -i["date"]):
+        dim = "\033[2m" if i["link"] in seen else ""
+        votes = f" ▲{i['votes']}" if i.get("votes") else ""
+        card = (f"{dim}\033[1m{i['title']}\033[0m\n\033[2m{i['source']}{votes} · {age(i['date'])}\033[0m\n"
+                f"{dim}{i.get('tldr') or i['summary'][:280]}\033[0m")
+        preview = f"\033[1m{i['title']}\033[0m\n\n{i['summary']}"
+        cards.append(f"{i['link']}\x1f{card}\x1f{preview}")  # fzf's fields {1}, {2} and {3}
+    me, seen_file = shlex.quote(os.path.abspath(sys.argv[0])), shlex.quote(str(SEEN))
+    normal = "j,k,g,G,l,o,/"  # vim-style keys, unbound while / takes a filter
+    hint = "j/k scroll · Enter read · o browser · / filter · Esc clear · Esc Esc quit"
+    side = max(0, (shutil.get_terminal_size().columns - 190) // 2)  # wide screens: a centred column
+    subprocess.run(["fzf", "--read0", "--ansi", "--wrap-word", "--wrap-sign= ", "--gap", "--highlight-line",
+                    "--layout=reverse", f"--margin=0,{side}", "--delimiter=\x1f", "--with-nth=2", "--with-shell=sh -c",
+                    "--no-input", "--prompt=/", "--exact", "--no-sort", f"--header={hint}",
+                    "--preview=printf '%s' {3}", "--preview-window=right,45%,wrap-word,<60(hidden)",
+                    "--bind=j:down,k:up,g:first,G:last,ctrl-d:half-page-down,ctrl-u:half-page-up,change:first",
+                    f"--bind=l:execute({me} read {{1}}),o:execute-silent(open {{1}}),/:show-input+unbind({normal})",
+                    # Enter applies a filter being typed, like Vim's / prompt; after that, Enter reads
+                    f"--bind=enter:transform:[ $FZF_INPUT_STATE = hidden ] && echo 'trigger(l)' || echo 'hide-input+rebind({normal})'",
+                    # Esc cancels or clears the filter (shown first: a hidden query can't be cleared). With none,
+                    # Esc Esc quits: the list label, never displayed, remembers the first Esc until the cursor moves.
+                    "--bind=esc:transform@[ $FZF_INPUT_STATE = hidden ] && [ -z \"$FZF_QUERY\" ] && { [ -n \"$FZF_LIST_LABEL\" ]"
+                    " && echo abort || echo 'change-list-label(quit)+change-header(Esc again to quit)'; }@"
+                    f"+show-input+clear-query+hide-input+rebind({normal})",
+                    f"--bind=focus:execute-silent(echo {{1}} >> {seen_file})+change-list-label()+change-header({hint})"],
+                   input="\0".join(cards), text=True)
+
+
+def read(url):
+    import trafilatura
+    page = trafilatura.fetch_url(url.replace("arxiv.org/abs/", "arxiv.org/html/"))  # arXiv: the paper itself
+    md = page and trafilatura.extract(page, output_format="markdown", include_formatting=True, include_links=True)
+    if not md:  # no HTML version, or a page that can't be fetched
+        return subprocess.run(["open", url])
+    title = json.loads(ITEMS.read_text()).get(url, {}).get("title") if ITEMS.exists() else None
+    if title and not md.startswith("#"):  # pages that open with their title keep their own
+        md = f"# {title}\n\n{md}"
+    ARTICLE.write_text(md)  # a file, so Claude Code in Neovim can be handed it
+    subprocess.run(["nvim", "-R", "+setlocal wrap linebreak", "+silent! Reader",  # :Reader, if defined: a reading layout
+                    "+nnoremap <buffer> q <cmd>qa<cr>", str(ARTICLE)])
+
+
+if __name__ == "__main__":
+    import truststore
+    truststore.inject_into_ssl()  # trust the macOS Keychain like other apps do, so company proxies work
+    CACHE.mkdir(parents=True, exist_ok=True)
+    match sys.argv[1:]:
+        case []: scroll()
+        case ["refresh"]: refresh()
+        case ["read", url]: read(url)
+        case _: sys.exit(__doc__)
