@@ -3,14 +3,14 @@
 lockfile_version = 3
 
 [[tools.claude]]
-version = "2.1.311"
+version = "2.1.312"
 backend = "aqua:anthropics/claude-code"
 specifiers = ["latest"]
 
 [tools.claude."platforms.macos-arm64"]
-checksum = "sha256:28dc437c4530e4fbd5e4f8924119cb001c332b64de5e817b35898c39ec107155"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.311/claude-darwin-arm64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/679248777"
+checksum = "sha256:b5ff41139e79b6ffdabe4df93c09ee628b1306a78be6459139fd7c7f175c85ac"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.312/claude-darwin-arm64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/682510790"
 
 [[tools.colima]]
 version = "0.10.3"
