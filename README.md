@@ -211,6 +211,8 @@ the first time with `colima start --ssh-config=false` (see
 it. amd64 images run under emulation; `colima start --vz-rosetta` (after
 `colima stop`) makes that faster. `docker buildx` and `docker compose` work as
 plugins: the bootstrap hook links them into `~/.docker/cli-plugins/`.
+`.zshrc` exports `DOCKER_HOST` as Colima's socket, because the Gradle docker
+plugin ignores Docker contexts and otherwise fails to connect.
 
 ### Apps, tools and macOS settings
 

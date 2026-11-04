@@ -31,6 +31,10 @@ unalias gh # Zim's git module maps gh to `git help`; keep the GitHub CLI
 bindkey -M vicmd k history-substring-search-up
 bindkey -M vicmd j history-substring-search-down
 
+# Colima's socket: the docker CLI finds it through its context, but the Gradle docker plugin
+# doesn't and fails with "Connection refused" on 127.0.0.1:2375.
+export DOCKER_HOST=unix://$HOME/.colima/default/docker.sock
+
 # Work aliases. ~/.aliases.work only exists on machines with the mise `work` env.
 [[ -f ~/.aliases.work ]] && source ~/.aliases.work
 
