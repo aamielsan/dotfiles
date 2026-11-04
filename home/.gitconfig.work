@@ -1,2 +1,3 @@
 [user]
 	email = Adrian.Amiel.Partoza.Sanchez@dnb.no
+	signingkey = ~/.ssh/github-dnb.pub

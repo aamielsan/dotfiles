@@ -1,6 +1,13 @@
 [user]
 	name = A Sanchez
 	email = aamiel.sanchez@gmail.com
+	signingkey = ~/.ssh/github-personal.pub # the agent holds the private key
+
+# Sign every commit with that SSH key (GitHub shows them as Verified)
+[gpg]
+	format = ssh
+[commit]
+	gpgsign = true
 
 # Work identity for repos under ~/workspace/dnb/. Git ignores the include
 # if the file is missing (i.e. machines without the mise `work` env).

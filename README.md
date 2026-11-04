@@ -167,6 +167,13 @@ windows. Each worktree gets its own Kotlin LSP indexes (see
   gitlab.tech.dnb.no. Passphrases live in the macOS Keychain, and only the
   configured key is offered. Hosts that only some machines have go in
   `~/.ssh/config.d/`.
+- **Signing:** every commit is signed with the SSH key of its identity,
+  `github-personal` by default and `github-dnb` under `~/workspace/dnb/`, taken
+  from the agent (no extra prompt; ~11 ms per commit). GitHub shows a commit as
+  Verified once the same public key is added as a **Signing key** (Settings →
+  SSH and GPG keys; the sign-in entry for the key doesn't count). Without the
+  key file, `git commit` fails. Check a commit with `git log --show-signature`
+  (needs `gpg.ssh.allowedSignersFile`, which isn't set).
 
 ### Editors and AI
 
