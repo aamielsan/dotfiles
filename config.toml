@@ -25,7 +25,8 @@ neovim = "latest"
 tree-sitter = "latest" # nvim-treesitter compiles parsers with it
 # Kotlin LSP for Neovim, until Mason's package works again (mason-registry#17323:
 # JetBrains moved the download, so Mason's URL returns 404). Then drop this.
-"http:kotlin-lsp" = { version = "263.6379.0", url = "https://download.jetbrains.com/language-server/kotlin-server/{{ version }}/kotlin-server-{{ version }}-aarch64.sit", format = "zip", strip_components = 1, bin_path = "bin" }
+# Builds expire 30 days after they're built: when the LSP logs "has expired", bump the version (tags: Kotlin/kotlin-lsp).
+"http:kotlin-lsp" = { version = "263.7084.0", url = "https://download.jetbrains.com/language-server/kotlin-server/{{ version }}/kotlin-server-{{ version }}-aarch64.sit", format = "zip", strip_components = 1, bin_path = "bin" }
 claude = "latest"
 
 # Containers: `colima start` runs the Docker engine in a VM when needed
