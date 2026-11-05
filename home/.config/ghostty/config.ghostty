@@ -4,9 +4,11 @@ theme = "dark:Rose Pine Moon,light:Rose Pine Dawn"
 # Padding takes the nearest cell's colour, so tmux's status bar reaches the window edges.
 window-padding-color = extend
 
-# Attach to the "main" tmux session, creating it if needed. Login shell so
-# .zprofile puts mise's tmux on PATH.
-command = /bin/zsh -l -c "tmux new-session -A -s main"
+# Attach to the "main" tmux session, creating it if needed, and make sure it has a "feed" window
+# (-d: stay on the current window; -S: only if there isn't one yet, so quitting feed brings it
+# back on the next open). Login shell so .zprofile puts mise's tmux and uv on PATH. The quoted ';'
+# is tmux's command separator.
+command = /bin/zsh -l -c "tmux new-session -A -s main ';' new-window -d -S -n feed feed"
 
 # Ctrl+Tab / Ctrl+Shift+Tab switch tmux windows: they send tmux's C-a prefix, then n or p
 # (update them if the prefix changes). Ghostty's own tabs aren't used.

@@ -96,7 +96,9 @@ PATH (mise shims), `.zshrc` does the interactive setup (full `mise activate`).
 ### Terminal
 
 Ghostty opens fullscreen straight into the tmux session `main`, so sessions
-outlive the window. The theme is Rose Pine and follows macOS light/dark mode.
+outlive the window, and makes sure the session has a `feed` window (see
+[Reading](#reading)); quit it and the next Ghostty window brings it back. The
+theme is Rose Pine and follows macOS light/dark mode.
 The tmux prefix is `C-a`:
 
 | Key | Does |
@@ -205,7 +207,8 @@ with a one- or two-sentence TL;DR: arXiv cs.SE, Hugging Face's daily papers,
 Anthropic, OpenAI, Google Research, the Hugging Face blog, Simon Willison,
 Lilian Weng, Martin Fowler, Julia Evans and Hacker News (the list is at the top
 of the script). Sources take turns, and cards you've scrolled past sink to the
-bottom, dimmed.
+bottom, dimmed. Every Ghostty window makes sure tmux has a `feed` window running
+it, next to the others without taking focus.
 
 | Key | Does |
 |---|---|
